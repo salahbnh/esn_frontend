@@ -1,21 +1,25 @@
-export { default } from "next-auth/middleware";
+import { withAuth } from "next-auth/middleware";
 
 /**
- * Route protection. `next-auth/middleware` redirects unauthenticated users to
- * the sign-in page, then back to the dashboard after login.
+ * Route protection (UX gate only — the backend is the real authority on every
+ * API call). `withAuth` redirects unauthenticated users to `/login`.
  *
- * The matcher protects app routes while leaving auth endpoints, Next internals
- * and static assets public. RBAC is still enforced server-side by the backend
- * on every API call — this middleware is only a UX gate.
+ * Public: `/login`, `/api/auth/*`, Next internals, and static assets. Everything
+ * else (the `(app)` group) requires a session.
  */
+export default withAuth({
+  pages: { signIn: "/login" },
+});
+
 export const config = {
   matcher: [
     /*
-     * Match all request paths except:
-     * - /api/auth (NextAuth endpoints)
-     * - /_next/static, /_next/image (Next internals)
-     * - /favicon.ico and common static files
+     * Protect all paths except:
+     *  - /login (public login screen)
+     *  - /api/auth (NextAuth endpoints)
+     *  - /_next/static, /_next/image (Next internals)
+     *  - favicon and common static files
      */
-    "/((?!api/auth|_next/static|_next/image|favicon.ico).*)",
+    "/((?!login|api/auth|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)",
   ],
 };

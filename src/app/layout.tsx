@@ -1,32 +1,35 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import type { ReactNode } from "react";
 
-import { Header } from "@/components/Header";
-import { Providers } from "@/components/Providers";
+import { Providers } from "@/components/providers";
+import { Toaster } from "@/components/ui/sonner";
+import { fr } from "@/lib/i18n/fr";
 
 import "./globals.css";
 
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
-  title: "ESN Resource Manager",
-  description:
-    "Internal app to pilot the full consultant lifecycle: recruitment, consultants, staffing, missions, contracts, reporting.",
+  title: {
+    default: fr.app.fullName,
+    template: `%s · ${fr.app.name}`,
+  },
+  description: fr.app.tagline,
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
-      <body>
-        <Providers>
-          <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
-            <Header />
-            <main className="mx-auto w-full max-w-6xl flex-1 px-6 py-8">
-              {children}
-            </main>
-            <footer className="border-t border-slate-200 bg-white px-6 py-4 text-center text-xs text-slate-400">
-              ESN Resource Manager — internal tool
-            </footer>
-          </div>
-        </Providers>
+    <html lang="fr" suppressHydrationWarning>
+      <body
+        className={`${inter.variable} min-h-screen bg-background font-sans text-foreground antialiased`}
+      >
+        <Providers>{children}</Providers>
+        <Toaster richColors position="top-right" />
       </body>
     </html>
   );

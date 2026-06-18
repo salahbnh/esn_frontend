@@ -1,22 +1,22 @@
 /**
  * API contract types — the frontend mirror of the backend DTOs.
  *
- * IMPORTANT: These MUST stay in sync with the backend Zod schemas
- * (`backend/src/modules/<module>/<module>.schema.ts`). There is no shared
- * workspace; the contract is kept in sync deliberately. When the backend
- * contract changes, update these types in the same change.
+ * IMPORTANT: keep in sync with the backend Zod schemas
+ * (`backend/src/modules/<module>/<module>.schema.ts`). When the backend
+ * contract changes, update these in the same change.
  *
- * Derived from docs/PRD.md, docs/architecture.md and docs/rbac-matrix.md.
+ * Milestone 1 ships only the shared enums, the role type, and the list/error
+ * envelopes. Per-module DTOs land with their feature.
  */
 
 // ---------------------------------------------------------------------------
-// Enums (string unions — match Keycloak roles + backend status enums)
+// Roles + status enums (string unions matching Keycloak + backend enums)
 // ---------------------------------------------------------------------------
 
 export const ROLES = ["RH", "MANAGER", "DIRECTION", "CONSULTANT"] as const;
 export type Role = (typeof ROLES)[number];
 
-/** Recruitment pipeline: application → interview → validation. */
+/** Recruitment pipeline. */
 export const CANDIDATE_STATUSES = [
   "APPLICATION",
   "INTERVIEW",
@@ -26,7 +26,7 @@ export const CANDIDATE_STATUSES = [
 ] as const;
 export type CandidateStatus = (typeof CANDIDATE_STATUSES)[number];
 
-/** Consultant availability: intercontrat / on mission / available. */
+/** Consultant availability. */
 export const CONSULTANT_STATUSES = [
   "INTERCONTRACT",
   "ON_MISSION",
@@ -34,7 +34,7 @@ export const CONSULTANT_STATUSES = [
 ] as const;
 export type ConsultantStatus = (typeof CONSULTANT_STATUSES)[number];
 
-/** Mission lifecycle: create → assign → validate → start → in-progress → close. */
+/** Mission lifecycle. */
 export const MISSION_STATUSES = [
   "DRAFT",
   "ASSIGNED",
@@ -44,6 +44,15 @@ export const MISSION_STATUSES = [
   "ARCHIVED",
 ] as const;
 export type MissionStatus = (typeof MISSION_STATUSES)[number];
+
+/** Assignment (staffing) status. */
+export const ASSIGNMENT_STATUSES = [
+  "PROPOSED",
+  "ACTIVE",
+  "ENDED",
+  "CANCELLED",
+] as const;
+export type AssignmentStatus = (typeof ASSIGNMENT_STATUSES)[number];
 
 /** Contract internal validation workflow: RH → MANAGER → DIRECTION. */
 export const CONTRACT_STATUSES = [
@@ -67,87 +76,25 @@ export const DOCUMENT_TYPES = [
 export type DocumentType = (typeof DOCUMENT_TYPES)[number];
 
 // ---------------------------------------------------------------------------
-// Entity shapes (a subset — the foundation; extend per-module as built)
+// Envelopes
 // ---------------------------------------------------------------------------
 
-/** ISO-8601 timestamp string (e.g. "2026-06-15T10:00:00.000Z"). */
+/** ISO-8601 timestamp string. */
 export type ISODateString = string;
 
-export interface Candidate {
-  id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone?: string;
-  position?: string;
-  status: CandidateStatus;
-  createdAt: ISODateString;
-  updatedAt: ISODateString;
+/** Backend list envelope: `{ data, page, pageSize, total }`. */
+export interface PaginatedResult<T> {
+  data: T[];
+  page: number;
+  pageSize: number;
+  total: number;
 }
 
-export interface Consultant {
-  id: string;
-  /** Keycloak-linked application user; null until provisioned. */
-  userId: string | null;
-  firstName: string;
-  lastName: string;
-  email: string;
-  position?: string;
-  skills: string[];
-  status: ConsultantStatus;
-  /** Tarif Journalier Moyen (daily rate), in EUR. */
-  tjm?: number;
-  createdAt: ISODateString;
-  updatedAt: ISODateString;
-}
-
-export interface Mission {
-  id: string;
-  clientName: string;
-  title: string;
-  role?: string;
-  requiredSkills: string[];
-  startDate: ISODateString;
-  endDate?: ISODateString;
-  tjm?: number;
-  status: MissionStatus;
-  /** Consultant currently assigned, if any. */
-  assignedConsultantId?: string | null;
-  createdAt: ISODateString;
-  updatedAt: ISODateString;
-}
-
-export interface Contract {
-  id: string;
-  consultantId: string;
-  templateId?: string;
-  status: ContractStatus;
-  /** Storage key of the generated/signed PDF in MinIO, once available. */
-  pdfStorageKey?: string | null;
-  createdAt: ISODateString;
-  updatedAt: ISODateString;
-}
-
-export interface Document {
-  id: string;
-  type: DocumentType;
-  fileName: string;
-  /** Object key in MinIO / S3-compatible storage. */
-  storageKey: string;
-  /** Entity this document is attached to (e.g. a consultant or contract id). */
-  entityId: string;
-  entityType: "CONSULTANT" | "CONTRACT" | "CANDIDATE" | "MISSION";
-  uploadedBy: string;
-  createdAt: ISODateString;
-}
-
-// ---------------------------------------------------------------------------
-// Error contract — backend returns `{ error: { code, message } }` on non-2xx.
-// ---------------------------------------------------------------------------
-
+/** Backend error envelope: `{ error: { code, message, details? } }`. */
 export interface ApiErrorShape {
   error: {
     code: string;
     message: string;
+    details?: unknown;
   };
 }

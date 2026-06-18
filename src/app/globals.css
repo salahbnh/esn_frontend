@@ -1,37 +1,100 @@
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-html,
-body {
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  font-family:
-    system-ui,
-    -apple-system,
-    "Segoe UI",
-    Roboto,
-    Helvetica,
-    Arial,
-    sans-serif;
-  color: #0f172a;
-  background: #f8fafc;
-  line-height: 1.5;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 /*
- * NOTE: utility classes (e.g. `rounded-md`, `text-sm`) used in components read
- * like Tailwind. Tailwind is intentionally NOT wired up in this skeleton to keep
- * the foundation minimal. If/when Tailwind is added, install it and replace this
- * file with the @tailwind directives — the markup already matches.
+ * Design tokens (shadcn model). Light = :root, dark = .dark. Colors are HSL
+ * triplets consumed as `hsl(var(--token))` in tailwind.config.ts.
+ * Palette: neutral slate surfaces + indigo primary + teal accent.
  */
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222 47% 11%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+
+    --primary: 235 78% 62%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222 47% 11%;
+
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
+
+    --accent: 172 66% 40%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 235 78% 62%;
+
+    --radius: 0.6rem;
+
+    /* Role accents (UX only) — RH amber, Manager blue, Direction violet, Consultant teal. */
+    --role-rh: 38 92% 50%;
+    --role-mgr: 217 91% 60%;
+    --role-dir: 262 83% 58%;
+    --role-cons: 172 66% 40%;
+  }
+
+  .dark {
+    --background: 222 47% 8%;
+    --foreground: 210 40% 98%;
+
+    --card: 222 44% 11%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222 44% 11%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 235 84% 70%;
+    --primary-foreground: 222 47% 8%;
+
+    --secondary: 217 33% 18%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217 33% 18%;
+    --muted-foreground: 215 20% 65%;
+
+    --accent: 172 60% 45%;
+    --accent-foreground: 222 47% 8%;
+
+    --destructive: 0 63% 45%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217 33% 20%;
+    --input: 217 33% 22%;
+    --ring: 235 84% 70%;
+
+    --role-rh: 38 92% 55%;
+    --role-mgr: 217 91% 65%;
+    --role-dir: 262 83% 66%;
+    --role-cons: 172 60% 48%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  /* Smooth theme transitions on surfaces. */
+  body,
+  body * {
+    transition:
+      background-color 180ms ease,
+      border-color 180ms ease,
+      color 180ms ease;
+  }
+}
