@@ -2,6 +2,7 @@
 
 import { LogOut } from "lucide-react";
 import { signOut } from "next-auth/react";
+import { useEffect, useState } from "react";
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -39,6 +40,13 @@ export function UserMenu({
 }) {
   const displayName = name || email || "Utilisateur";
 
+  // Radix generates `useId`-based ids for the dropdown. Rendering it on the
+  // server produced ids that didn't line up on the client (hydration mismatch),
+  // so we render an identical plain trigger until mounted, then upgrade to the
+  // interactive dropdown — its ids are then generated client-side only.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
   /**
    * Federated logout: fetch the Keycloak end-session URL while the session is
    * still valid, clear the local NextAuth cookie, then redirect to Keycloak to
@@ -56,24 +64,23 @@ export function UserMenu({
     }
   }
 
+  const trigger = (
+    <Button variant="ghost" className="h-9 gap-2 px-2" aria-label={displayName}>
+      <Avatar className="h-7 w-7">
+        <AvatarFallback className="text-xs">
+          {initials(name, email)}
+        </AvatarFallback>
+      </Avatar>
+      <span className="hidden text-sm font-medium sm:inline">{displayName}</span>
+    </Button>
+  );
+
+  // SSR + first client render: identical static trigger (no Radix ids).
+  if (!mounted) return trigger;
+
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button
-          variant="ghost"
-          className="h-9 gap-2 px-2"
-          aria-label={displayName}
-        >
-          <Avatar className="h-7 w-7">
-            <AvatarFallback className="text-xs">
-              {initials(name, email)}
-            </AvatarFallback>
-          </Avatar>
-          <span className="hidden text-sm font-medium sm:inline">
-            {displayName}
-          </span>
-        </Button>
-      </DropdownMenuTrigger>
+      <DropdownMenuTrigger asChild>{trigger}</DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56">
         <DropdownMenuLabel className="flex flex-col gap-1.5">
           <span className="truncate">{displayName}</span>

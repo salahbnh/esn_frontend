@@ -142,6 +142,17 @@ const NAV_MODEL: NavSection[] = [
   },
 ];
 
+/**
+ * Roles allowed to view the RH + pipeline reports (UX gating only — the backend
+ * returns 403 for everyone else). Occupancy + missions are open to RH/MGR/DIR.
+ */
+export const RH_PIPELINE_REPORT_ROLES: Role[] = ["RH", "DIRECTION"];
+
+/** Whether a role may see the pipeline / HR reports (UX only). */
+export function canSeeHrReports(role: Role | null | undefined): boolean {
+  return !!role && RH_PIPELINE_REPORT_ROLES.includes(role);
+}
+
 /** Whether a role may see a nav item (UX only). */
 export function canSee(item: NavItem, role: Role | null | undefined): boolean {
   if (!role) return false;

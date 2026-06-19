@@ -44,6 +44,13 @@
     --role-mgr: 217 91% 60%;
     --role-dir: 262 83% 58%;
     --role-cons: 172 66% 40%;
+
+    /* Categorical chart palette (Recharts reads these via hsl(var(--chart-N))). */
+    --chart-1: 235 78% 62%;
+    --chart-2: 172 66% 40%;
+    --chart-3: 38 92% 50%;
+    --chart-4: 262 83% 58%;
+    --chart-5: 199 89% 48%;
   }
 
   .dark {
@@ -79,6 +86,13 @@
     --role-mgr: 217 91% 65%;
     --role-dir: 262 83% 66%;
     --role-cons: 172 60% 48%;
+
+    /* Categorical chart palette (dark variants — slightly brighter for contrast). */
+    --chart-1: 235 84% 70%;
+    --chart-2: 172 60% 52%;
+    --chart-3: 38 92% 58%;
+    --chart-4: 262 83% 70%;
+    --chart-5: 199 89% 60%;
   }
 }
 
