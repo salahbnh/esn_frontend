@@ -45,6 +45,9 @@
     --role-dir: 262 83% 58%;
     --role-cons: 172 66% 40%;
 
+    /* Status semantics: a success green, distinct from the teal "active" accent. */
+    --success: 142 71% 38%;
+
     /* Categorical chart palette (Recharts reads these via hsl(var(--chart-N))). */
     --chart-1: 235 78% 62%;
     --chart-2: 172 66% 40%;
@@ -86,6 +89,8 @@
     --role-mgr: 217 91% 65%;
     --role-dir: 262 83% 66%;
     --role-cons: 172 60% 48%;
+
+    --success: 142 64% 48%;
 
     /* Categorical chart palette (dark variants — slightly brighter for contrast). */
     --chart-1: 235 84% 70%;

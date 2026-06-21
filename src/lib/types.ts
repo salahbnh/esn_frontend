@@ -16,13 +16,13 @@
 export const ROLES = ["RH", "MANAGER", "DIRECTION", "CONSULTANT"] as const;
 export type Role = (typeof ROLES)[number];
 
-/** Recruitment pipeline. */
+/** Recruitment pipeline (matches backend Prisma `CandidateStatus`). */
 export const CANDIDATE_STATUSES = [
-  "APPLICATION",
+  "APPLIED",
   "INTERVIEW",
   "VALIDATED",
   "REJECTED",
-  "CONVERTED",
+  "HIRED",
 ] as const;
 export type CandidateStatus = (typeof CANDIDATE_STATUSES)[number];
 

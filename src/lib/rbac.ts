@@ -65,7 +65,7 @@ const NAV_MODEL: NavSection[] = [
         label: fr.nav.candidates,
         href: "/candidates",
         icon: Users,
-        roles: ["RH", "DIRECTION"],
+        roles: ["RH", "MANAGER", "DIRECTION"],
       },
       {
         label: fr.nav.consultants,

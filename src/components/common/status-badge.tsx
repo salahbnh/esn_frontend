@@ -1,12 +1,13 @@
 /**
  * Status badge: renders a backend enum value as a French label inside a tinted
- * badge. Covers the entity enums (via `lib/format`'s `statusLabel`) and the
- * reporting enums. Variant maps "positive/neutral/negative" buckets to badge
- * styles. Reused by every module that shows a status.
+ * badge. Covers the entity enums (via `lib/format`'s `statusLabel`), the
+ * reporting enums, and proposals. Each status maps to a semantic colour so
+ * different stages are visually distinct (not just positive/neutral/negative).
  */
 
 import { Badge } from "@/components/ui/badge";
 import { statusLabel } from "@/lib/format";
+import { fr } from "@/lib/i18n/fr";
 import {
   pipelineLabel,
   reportConsultantLabel,
@@ -20,6 +21,7 @@ import type {
   ReportContractStatus,
   ReportMissionStatus,
 } from "@/features/reporting/reporting.types";
+import type { ProposalStatus } from "@/features/recruitment/recruitment.types";
 import type {
   AssignmentStatus,
   CandidateStatus,
@@ -29,16 +31,32 @@ import type {
   MissionStatus,
 } from "@/lib/types";
 
-type Tone = "neutral" | "positive" | "warning" | "negative" | "info";
+/**
+ * Semantic tones, each a distinct hue:
+ *  neutral=grey · info=blue · attention=amber · review=violet ·
+ *  active=teal · success=green · pending=indigo · danger=red
+ */
+type Tone =
+  | "neutral"
+  | "info"
+  | "attention"
+  | "review"
+  | "active"
+  | "success"
+  | "pending"
+  | "danger";
 
 const toneClass: Record<Tone, string> = {
   neutral: "bg-muted text-muted-foreground border-transparent",
-  positive:
-    "bg-role-cons/15 text-role-cons border-transparent dark:bg-role-cons/25",
-  warning: "bg-role-rh/15 text-role-rh border-transparent dark:bg-role-rh/25",
-  negative:
-    "bg-destructive/15 text-destructive border-transparent dark:bg-destructive/25",
   info: "bg-role-mgr/15 text-role-mgr border-transparent dark:bg-role-mgr/25",
+  attention: "bg-role-rh/15 text-role-rh border-transparent dark:bg-role-rh/25",
+  review: "bg-role-dir/15 text-role-dir border-transparent dark:bg-role-dir/25",
+  active:
+    "bg-role-cons/15 text-role-cons border-transparent dark:bg-role-cons/25",
+  success: "bg-success/15 text-success border-transparent dark:bg-success/25",
+  pending: "bg-primary/15 text-primary border-transparent dark:bg-primary/25",
+  danger:
+    "bg-destructive/15 text-destructive border-transparent dark:bg-destructive/25",
 };
 
 type Spec =
@@ -48,37 +66,74 @@ type Spec =
   | { kind: "assignment"; value: AssignmentStatus }
   | { kind: "contract"; value: ContractStatus }
   | { kind: "document"; value: DocumentType }
+  | { kind: "proposal"; value: ProposalStatus }
   | { kind: "reportConsultant"; value: ReportConsultantStatus }
   | { kind: "reportMission"; value: ReportMissionStatus }
   | { kind: "reportContract"; value: ReportContractStatus }
   | { kind: "pipeline"; value: PipelineStage };
 
+/**
+ * Status value → tone. Values are unique enough across enums that one map works;
+ * where a token is genuinely shared (VALIDATED, DRAFT…) the same tone is also the
+ * right meaning everywhere. Semantically-equivalent states intentionally share a
+ * hue (e.g. all inert/terminal states are grey).
+ */
 const TONE_BY_VALUE: Record<string, Tone> = {
-  // shared / cross-vocabulary tokens
-  AVAILABLE: "positive",
-  ON_MISSION: "info",
-  INTERCONTRACT: "warning",
-  INTERCONTRAT: "warning",
-  REJECTED: "negative",
-  CANCELLED: "negative",
-  VALIDATED: "positive",
-  SIGNED: "positive",
-  HIRED: "positive",
-  CONVERTED: "positive",
-  IN_PROGRESS: "info",
-  ACTIVE: "info",
-  CLOSED: "neutral",
-  ENDED: "neutral",
-  ARCHIVED: "neutral",
+  // --- Candidate pipeline (each stage distinct) ---
+  APPLIED: "info", // new application
+  INTERVIEW: "attention", // in progress
+  VALIDATED: "review", // approved, awaiting next step
+  REJECTED: "danger",
+  HIRED: "success", // final positive outcome
+
+  // --- Consultant availability ---
+  INTERCONTRACT: "attention", // on the bench — needs staffing
+  INTERCONTRAT: "attention",
+  ON_MISSION: "active",
+  AVAILABLE: "success",
+
+  // --- Mission lifecycle ---
   DRAFT: "neutral",
+  ASSIGNED: "info",
+  STAFFED: "info",
+  IN_PROGRESS: "active",
+  CLOSED: "neutral",
+  ARCHIVED: "neutral",
+
+  // --- Assignment (staffing) ---
+  PROPOSED: "pending",
+  ACTIVE: "active",
+  ENDED: "neutral",
+  CANCELLED: "danger",
+
+  // --- Contract validation workflow ---
+  PENDING_RH: "pending",
+  PENDING_MANAGER: "pending",
+  PENDING_DIRECTION: "pending",
+  INTERNAL_VALIDATION: "pending",
+  SENT: "info",
+  SIGNED: "success",
+
+  // --- Proposal (offer) ---
+  // DRAFT (neutral) + SENT (info) reuse the tokens above.
+  ACCEPTED: "success",
+  DECLINED: "danger",
+
+  // --- Document types (tags, light semantics) ---
+  CV: "info",
+  CONTRACT: "review",
+  AMENDMENT: "attention",
+  OTHER: "neutral",
 };
 
 function toneFor(value: string): Tone {
-  return TONE_BY_VALUE[value] ?? "info";
+  return TONE_BY_VALUE[value] ?? "neutral";
 }
 
 function labelFor(spec: Spec): string {
   switch (spec.kind) {
+    case "proposal":
+      return fr.candidates.proposalStatuses[spec.value];
     case "reportConsultant":
       return reportConsultantLabel(spec.value);
     case "reportMission":

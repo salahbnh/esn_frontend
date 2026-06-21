@@ -63,6 +63,7 @@ const config: Config = {
           dir: "hsl(var(--role-dir))",
           cons: "hsl(var(--role-cons))",
         },
+        success: "hsl(var(--success))",
       },
       borderRadius: {
         lg: "var(--radius)",
