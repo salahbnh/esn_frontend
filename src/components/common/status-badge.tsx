@@ -87,14 +87,12 @@ const TONE_BY_VALUE: Record<string, Tone> = {
   HIRED: "success", // final positive outcome
 
   // --- Consultant availability ---
-  INTERCONTRACT: "attention", // on the bench — needs staffing
-  INTERCONTRAT: "attention",
+  INTERCONTRAT: "attention", // on the bench — needs staffing
   ON_MISSION: "active",
   AVAILABLE: "success",
 
   // --- Mission lifecycle ---
   DRAFT: "neutral",
-  ASSIGNED: "info",
   STAFFED: "info",
   IN_PROGRESS: "active",
   CLOSED: "neutral",
@@ -102,20 +100,18 @@ const TONE_BY_VALUE: Record<string, Tone> = {
 
   // --- Assignment (staffing) ---
   PROPOSED: "pending",
+  CONFIRMED: "info",
   ACTIVE: "active",
   ENDED: "neutral",
-  CANCELLED: "danger",
 
   // --- Contract validation workflow ---
-  PENDING_RH: "pending",
-  PENDING_MANAGER: "pending",
-  PENDING_DIRECTION: "pending",
   INTERNAL_VALIDATION: "pending",
-  SENT: "info",
+  PENDING_SIGNATURE: "pending",
   SIGNED: "success",
 
   // --- Proposal (offer) ---
-  // DRAFT (neutral) + SENT (info) reuse the tokens above.
+  // DRAFT (neutral) reuses the token above.
+  SENT: "info",
   ACCEPTED: "success",
   DECLINED: "danger",
 

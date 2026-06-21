@@ -5,14 +5,14 @@ import { formatTJM, roleLabel, statusLabel } from "@/lib/format";
 describe("statusLabel", () => {
   it("maps consultant statuses to French", () => {
     expect(statusLabel("consultant", "ON_MISSION")).toBe("En mission");
-    expect(statusLabel("consultant", "INTERCONTRACT")).toBe("Intercontrat");
+    expect(statusLabel("consultant", "INTERCONTRAT")).toBe("Intercontrat");
     expect(statusLabel("consultant", "AVAILABLE")).toBe("Disponible");
   });
 
   it("maps mission + contract statuses to French", () => {
     expect(statusLabel("mission", "IN_PROGRESS")).toBe("En cours");
-    expect(statusLabel("contract", "PENDING_DIRECTION")).toBe(
-      "En attente Direction",
+    expect(statusLabel("contract", "INTERNAL_VALIDATION")).toBe(
+      "Validation interne",
     );
   });
 });

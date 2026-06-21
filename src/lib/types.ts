@@ -26,42 +26,38 @@ export const CANDIDATE_STATUSES = [
 ] as const;
 export type CandidateStatus = (typeof CANDIDATE_STATUSES)[number];
 
-/** Consultant availability. */
+/** Consultant availability (matches backend Prisma `ConsultantStatus`). */
 export const CONSULTANT_STATUSES = [
-  "INTERCONTRACT",
+  "INTERCONTRAT",
   "ON_MISSION",
   "AVAILABLE",
 ] as const;
 export type ConsultantStatus = (typeof CONSULTANT_STATUSES)[number];
 
-/** Mission lifecycle. */
+/** Mission lifecycle (matches backend Prisma `MissionStatus`). */
 export const MISSION_STATUSES = [
   "DRAFT",
-  "ASSIGNED",
-  "VALIDATED",
+  "STAFFED",
   "IN_PROGRESS",
   "CLOSED",
   "ARCHIVED",
 ] as const;
 export type MissionStatus = (typeof MISSION_STATUSES)[number];
 
-/** Assignment (staffing) status. */
+/** Assignment (staffing) status (matches backend Prisma `AssignmentStatus`). */
 export const ASSIGNMENT_STATUSES = [
   "PROPOSED",
+  "CONFIRMED",
   "ACTIVE",
   "ENDED",
-  "CANCELLED",
 ] as const;
 export type AssignmentStatus = (typeof ASSIGNMENT_STATUSES)[number];
 
-/** Contract internal validation workflow: RH → MANAGER → DIRECTION. */
+/** Contract lifecycle (matches backend Prisma `ContractStatus`). */
 export const CONTRACT_STATUSES = [
   "DRAFT",
-  "PENDING_RH",
-  "PENDING_MANAGER",
-  "PENDING_DIRECTION",
-  "VALIDATED",
-  "SENT",
+  "INTERNAL_VALIDATION",
+  "PENDING_SIGNATURE",
   "SIGNED",
   "ARCHIVED",
 ] as const;
