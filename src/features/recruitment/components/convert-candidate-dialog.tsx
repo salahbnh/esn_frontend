@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { UserPlus } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -48,6 +49,7 @@ export function ConvertCandidateDialog({
   candidate: Candidate;
 }) {
   const [open, setOpen] = useState(false);
+  const router = useRouter();
   const mutation = useConvertCandidate(candidate.id);
   const {
     register,
@@ -61,9 +63,11 @@ export function ConvertCandidateDialog({
 
   const onSubmit = handleSubmit(async (values) => {
     try {
-      await mutation.mutateAsync(toConvertBody(values));
+      const result = await mutation.mutateAsync(toConvertBody(values));
       toast.success(fr.candidates.convertSuccess);
       setOpen(false);
+      // The new consultant page now exists (M4) — take the user straight to it.
+      router.push(`/consultants/${result.consultant.id}`);
     } catch {
       toast.error(fr.candidates.convertError);
     }

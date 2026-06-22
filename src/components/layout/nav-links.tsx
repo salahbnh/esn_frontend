@@ -21,6 +21,17 @@ export function NavLinks({
   const pathname = usePathname();
   const sections = navForRole(role);
 
+  // An item matches the current path on exact equality or as a path prefix
+  // (so `/consultants/:id` keeps "Consultants" active). When two nav items both
+  // match — e.g. `/me` and `/me/missions` — only the most specific (longest)
+  // one is highlighted, so a parent doesn't light up alongside its child.
+  const matches = (href: string) =>
+    pathname === href || pathname.startsWith(`${href}/`);
+  const allHrefs = sections.flatMap((s) => s.items.map((i) => i.href));
+  const isActive = (href: string) =>
+    matches(href) &&
+    !allHrefs.some((other) => other.length > href.length && matches(other));
+
   return (
     <nav className="flex flex-col gap-6" aria-label="Navigation principale">
       {sections.map((section) => (
@@ -29,8 +40,7 @@ export function NavLinks({
             {section.title}
           </p>
           {section.items.map((item) => {
-            const active =
-              pathname === item.href || pathname.startsWith(`${item.href}/`);
+            const active = isActive(item.href);
             const Icon = item.icon;
             return (
               <Link

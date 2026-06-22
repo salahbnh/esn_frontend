@@ -203,7 +203,14 @@ export function useConvertCandidate(candidateId: string) {
     mutationFn: (body: ConvertCandidateBody) =>
       api.convertCandidate(client, candidateId, body),
     onSuccess: () => {
-      qc.invalidateQueries({ queryKey: recruitmentKeys.detail(candidateId) });
+      // Mark the candidate detail stale WITHOUT an immediate refetch: the dialog
+      // navigates to the new consultant on success, and an immediate refetch
+      // here would flip this candidate to HIRED, unmount the (VALIDATED-only)
+      // convert dialog, and cancel that navigation. It refetches on next visit.
+      qc.invalidateQueries({
+        queryKey: recruitmentKeys.detail(candidateId),
+        refetchType: "none",
+      });
       qc.invalidateQueries({ queryKey: recruitmentKeys.lists() });
     },
   });
