@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 
 import { EmptyState } from "@/components/common/async-states";
@@ -63,8 +64,13 @@ export function MeMissionsView() {
                   <TableBody>
                     {data.data.map((a) => (
                       <TableRow key={a.id}>
-                        <TableCell className="font-medium">
-                          {a.mission.project}
+                        <TableCell>
+                          <Link
+                            href={`/missions/${a.missionId}`}
+                            className="font-medium text-primary hover:underline"
+                          >
+                            {a.mission.project}
+                          </Link>
                         </TableCell>
                         <TableCell className="text-muted-foreground">
                           {a.mission.client.name}
