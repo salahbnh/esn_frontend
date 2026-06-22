@@ -460,6 +460,64 @@ export const fr = {
     save: "Enregistrer",
     create: "Créer",
   },
+  staffing: {
+    title: "Affectations",
+    subtitle: "Gestion du staffing",
+    new: "Nouvelle affectation",
+    editTitle: "Modifier l'affectation",
+    noResults: "Aucune affectation",
+    noResultsHint: "Créez une affectation pour staffer une mission.",
+    allStatuses: "Tous les statuts",
+    allMissions: "Toutes les missions",
+    allConsultants: "Tous les consultants",
+    // fields
+    mission: "Mission",
+    consultant: "Consultant",
+    roleOnMission: "Rôle",
+    allocation: "Allocation",
+    startDate: "Date de début",
+    endDate: "Date de fin",
+    status: "Statut",
+    // status control
+    transitionStatus: "Changer le statut",
+    transitionTarget: "Nouveau statut",
+    transitionComment: "Commentaire (optionnel)",
+    transitionSubmit: "Mettre à jour",
+    transitionPlaceholder: "Choisir un statut…",
+    transitionSuccess: "Statut mis à jour",
+    transitionHint:
+      "Activer une affectation passe la mission en « Staffée » et le consultant « En mission » ; la clôturer remet le consultant en intercontrat s'il n'a plus d'affectation active.",
+    invalidTransition:
+      "Transition de statut invalide. Veuillez rafraîchir la page.",
+    noTransitionsAvailable: "Aucune transition disponible pour ce statut.",
+    // over-allocation force
+    overAllocated: "Ce consultant dépasserait 100 % d'allocation.",
+    missionNotStaffable:
+      "Cette mission est clôturée ou archivée — impossible d'y affecter un consultant.",
+    forceTitle: "Sur-allocation",
+    forceConfirm:
+      "Ce consultant dépasserait 100 % d'allocation. Forcer l'affectation ?",
+    force: "Forcer",
+    // suggestions
+    suggestionsTitle: "Consultants suggérés",
+    noSuggestions:
+      "Aucun consultant disponible ne correspond aux compétences requises.",
+    matchedSkills: "Compétences correspondantes",
+    currentAllocation: "Allocation actuelle",
+    select: "Choisir",
+    // occupancy
+    occupancyTitle: "Taux d'allocation",
+    occupancySubtitle: "Allocation des consultants",
+    totalAllocation: "Allocation totale",
+    activeAssignments: "Affectations actives",
+    // feedback
+    createSuccess: "Affectation créée",
+    updateSuccess: "Modifications enregistrées",
+    saveError: "Échec de l'enregistrement. Veuillez réessayer.",
+    cancel: "Annuler",
+    save: "Enregistrer",
+    create: "Créer",
+  },
 } as const;
 
 export type FrDictionary = typeof fr;

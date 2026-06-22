@@ -89,7 +89,7 @@ const NAV_MODEL: NavSection[] = [
         label: fr.nav.staffing,
         href: "/staffing",
         icon: UsersRound,
-        roles: ["MANAGER", "DIRECTION"],
+        roles: ["RH", "MANAGER", "DIRECTION"],
       },
       {
         label: fr.nav.contracts,

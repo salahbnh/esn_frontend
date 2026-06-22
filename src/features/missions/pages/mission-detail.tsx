@@ -120,7 +120,16 @@ function MissionInfo({
       </Field>
       <Field label={fr.missions.endDate}>{formatDate(mission.endDate)}</Field>
       <Field label={fr.missions.assignmentCount}>
-        <span className="tabular-nums">{mission._activeAssignmentCount}</span>
+        {isConsultant ? (
+          <span className="tabular-nums">{mission._activeAssignmentCount}</span>
+        ) : (
+          <Link
+            href={`/staffing?missionId=${mission.id}`}
+            className="tabular-nums text-primary hover:underline"
+          >
+            {mission._activeAssignmentCount} ›
+          </Link>
+        )}
       </Field>
       <Field label={fr.missions.requiredSkills}>
         {mission.requiredSkills.length > 0 ? (

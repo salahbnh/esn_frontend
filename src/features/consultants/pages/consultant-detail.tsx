@@ -15,6 +15,7 @@ import { AdminEditDialog } from "@/features/consultants/components/admin-edit-di
 import { ConsultantDocumentsList } from "@/features/consultants/components/consultant-documents-list";
 import { ConsultantProfile } from "@/features/consultants/components/consultant-profile";
 import { ConsultantStatusControl } from "@/features/consultants/components/consultant-status-control";
+import { ConsultantOccupancyLink } from "@/features/staffing/components/consultant-occupancy-link";
 import { QueryBoundary } from "@/features/consultants/query-boundary";
 import { useConsultant } from "@/features/consultants/use-consultants";
 
@@ -39,6 +40,7 @@ export function ConsultantDetailView({ id }: { id: string }) {
             actions={
               <>
                 <StatusBadge kind="consultant" value={consultant.status} />
+                <ConsultantOccupancyLink consultantId={consultant.id} />
                 {canAdminEdit ? (
                   <AdminEditDialog consultant={consultant} />
                 ) : null}

@@ -12,13 +12,15 @@ describe("navForRole", () => {
     expect(hrefs).not.toContain("/missions");
   });
 
-  it("gives RH recruitment + consultants but not staffing", () => {
+  it("gives RH the management areas including clients/missions/staffing (view)", () => {
     const hrefs = navForRole("RH")
       .flatMap((s) => s.items)
       .map((i) => i.href);
     expect(hrefs).toContain("/candidates");
     expect(hrefs).toContain("/consultants");
-    expect(hrefs).not.toContain("/staffing");
+    expect(hrefs).toContain("/clients");
+    expect(hrefs).toContain("/missions");
+    expect(hrefs).toContain("/staffing");
   });
 
   it("shows nothing for an unauthenticated (null) role", () => {
