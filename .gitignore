@@ -5,6 +5,11 @@
 /.next/
 /out/
 
+# playwright (e2e artifacts)
+/test-results/
+/playwright-report/
+/playwright/.cache/
+
 # production
 /build
 

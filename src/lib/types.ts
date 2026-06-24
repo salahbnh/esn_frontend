@@ -63,6 +63,20 @@ export const CONTRACT_STATUSES = [
 ] as const;
 export type ContractStatus = (typeof CONTRACT_STATUSES)[number];
 
+/** Contract validation workflow steps (RH → MANAGER → DIRECTION). */
+export const CONTRACT_VALIDATION_STEPS = ["RH", "MANAGER", "DIRECTION"] as const;
+export type ContractValidationStep =
+  (typeof CONTRACT_VALIDATION_STEPS)[number];
+
+/** Outcome of a contract validation step. */
+export const CONTRACT_VALIDATION_STATES = [
+  "PENDING",
+  "APPROVED",
+  "REJECTED",
+] as const;
+export type ContractValidationState =
+  (typeof CONTRACT_VALIDATION_STATES)[number];
+
 export const DOCUMENT_TYPES = [
   "CV",
   "CONTRACT",
