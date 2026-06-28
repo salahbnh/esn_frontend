@@ -18,6 +18,8 @@ import { AddInteractionDialog } from "@/features/recruitment/components/add-inte
 import { AddProposalDialog } from "@/features/recruitment/components/add-proposal-dialog";
 import { ConvertCandidateDialog } from "@/features/recruitment/components/convert-candidate-dialog";
 import { EditCandidateDialog } from "@/features/recruitment/components/edit-candidate-dialog";
+import { DocumentsPanel } from "@/features/documents/components/documents-panel";
+import { canDownloadFrom } from "@/features/documents/documents.matrix";
 import { EvaluationList } from "@/features/recruitment/components/evaluation-list";
 import { InteractionTimeline } from "@/features/recruitment/components/interaction-timeline";
 import { ProposalList } from "@/features/recruitment/components/proposal-list";
@@ -35,6 +37,7 @@ export function CandidateDetailView({ id }: { id: string }) {
   const isRh = role === "RH";
   // Conversion (candidate → consultant) is RH + DIRECTION, VALIDATED only.
   const canConvert = role === "RH" || role === "DIRECTION";
+  const canSeeDocs = canDownloadFrom(role, "CANDIDATE");
 
   const query = useCandidate(id);
 
@@ -70,6 +73,11 @@ export function CandidateDetailView({ id }: { id: string }) {
                   {fr.candidates.tabProposals}
                 </TabsTrigger>
               ) : null}
+              {canSeeDocs ? (
+                <TabsTrigger value="documents">
+                  {fr.documents.title}
+                </TabsTrigger>
+              ) : null}
             </TabsList>
 
             <TabsContent value="info" className="space-y-6">
@@ -101,6 +109,11 @@ export function CandidateDetailView({ id }: { id: string }) {
                   </div>
                 ) : null}
                 <ProposalList candidateId={id} canManage={isRh} />
+              </TabsContent>
+            ) : null}
+            {canSeeDocs ? (
+              <TabsContent value="documents">
+                <DocumentsPanel entityType="CANDIDATE" entityId={id} />
               </TabsContent>
             ) : null}
           </Tabs>

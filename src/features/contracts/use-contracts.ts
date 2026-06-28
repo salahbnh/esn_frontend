@@ -145,6 +145,16 @@ export function useGenerateContractPdf(id: string) {
   });
 }
 
+export function useSignContract(id: string) {
+  const client = useApi();
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (signedPdfDocumentId: string) =>
+      api.signContract(client, id, signedPdfDocumentId),
+    onSuccess: (data) => invalidateForContract(qc, data),
+  });
+}
+
 export function useArchiveContract(id: string) {
   const client = useApi();
   const qc = useQueryClient();

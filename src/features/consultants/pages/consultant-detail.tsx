@@ -12,8 +12,8 @@ import {
 } from "@/components/ui/tabs";
 import { fr } from "@/lib/i18n/fr";
 import { AdminEditDialog } from "@/features/consultants/components/admin-edit-dialog";
-import { ConsultantDocumentsList } from "@/features/consultants/components/consultant-documents-list";
 import { ConsultantProfile } from "@/features/consultants/components/consultant-profile";
+import { DocumentsPanel } from "@/features/documents/components/documents-panel";
 import { ConsultantStatusControl } from "@/features/consultants/components/consultant-status-control";
 import { ConsultantOccupancyLink } from "@/features/staffing/components/consultant-occupancy-link";
 import { QueryBoundary } from "@/features/consultants/query-boundary";
@@ -71,7 +71,7 @@ export function ConsultantDetailView({ id }: { id: string }) {
             </TabsContent>
             {canSeeDocs ? (
               <TabsContent value="documents">
-                <ConsultantDocumentsList consultantId={id} />
+                <DocumentsPanel entityType="CONSULTANT" entityId={id} />
               </TabsContent>
             ) : null}
           </Tabs>

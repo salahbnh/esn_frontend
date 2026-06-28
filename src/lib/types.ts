@@ -80,10 +80,23 @@ export type ContractValidationState =
 export const DOCUMENT_TYPES = [
   "CV",
   "CONTRACT",
-  "AMENDMENT",
+  "CONTRACT_AMENDMENT",
+  "PROPOSAL",
+  "MISSION_DOC",
   "OTHER",
 ] as const;
 export type DocumentType = (typeof DOCUMENT_TYPES)[number];
+
+export const ENTITY_TYPES = [
+  "CANDIDATE",
+  "CONSULTANT",
+  "CLIENT",
+  "MISSION",
+  "CONTRACT",
+  "CONTRACT_TEMPLATE",
+  "ASSIGNMENT",
+] as const;
+export type EntityType = (typeof ENTITY_TYPES)[number];
 
 // ---------------------------------------------------------------------------
 // Envelopes

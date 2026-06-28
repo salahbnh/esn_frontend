@@ -9,9 +9,9 @@ import {
   TabsTrigger,
 } from "@/components/ui/tabs";
 import { fr } from "@/lib/i18n/fr";
-import { ConsultantDocumentsList } from "@/features/consultants/components/consultant-documents-list";
 import { ConsultantProfile } from "@/features/consultants/components/consultant-profile";
 import { SelfEditDialog } from "@/features/consultants/components/self-edit-dialog";
+import { DocumentsPanel } from "@/features/documents/components/documents-panel";
 import { QueryBoundary } from "@/features/consultants/query-boundary";
 import { useOwnProfile } from "@/features/consultants/use-consultants";
 
@@ -58,7 +58,11 @@ export function MeProfileView() {
               <ConsultantProfile consultant={consultant} />
             </TabsContent>
             <TabsContent value="documents">
-              <ConsultantDocumentsList consultantId={consultant.id} />
+              <DocumentsPanel
+                entityType="CONSULTANT"
+                entityId={consultant.id}
+                isOwner
+              />
             </TabsContent>
           </Tabs>
         </section>

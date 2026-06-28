@@ -71,9 +71,13 @@ export async function apiFetch<T>(
 ): Promise<T> {
   const { method = "GET", body, token, query, headers, init } = options;
 
+  // FormData (multipart uploads): send as-is and let the browser set the
+  // `Content-Type` (with its multipart boundary) — never JSON-encode it.
+  const isForm = typeof FormData !== "undefined" && body instanceof FormData;
+
   const finalHeaders: Record<string, string> = {
     Accept: "application/json",
-    ...(body !== undefined ? { "Content-Type": "application/json" } : {}),
+    ...(body !== undefined && !isForm ? { "Content-Type": "application/json" } : {}),
     ...(token ? { Authorization: `Bearer ${token}` } : {}),
     ...headers,
   };
@@ -81,7 +85,8 @@ export async function apiFetch<T>(
   const res = await fetch(buildUrl(path, query), {
     method,
     headers: finalHeaders,
-    body: body !== undefined ? JSON.stringify(body) : undefined,
+    body:
+      body === undefined ? undefined : isForm ? body : JSON.stringify(body),
     ...init,
   });
 
@@ -113,6 +118,8 @@ export function apiClient(token?: string) {
       apiFetch<T>(path, { ...opts, token, method: "GET" }),
     post: <T>(path: string, body?: unknown, opts?: ApiFetchOptions) =>
       apiFetch<T>(path, { ...opts, token, method: "POST", body }),
+    postForm: <T>(path: string, form: FormData, opts?: ApiFetchOptions) =>
+      apiFetch<T>(path, { ...opts, token, method: "POST", body: form }),
     patch: <T>(path: string, body?: unknown, opts?: ApiFetchOptions) =>
       apiFetch<T>(path, { ...opts, token, method: "PATCH", body }),
     del: <T>(path: string, opts?: Omit<ApiFetchOptions, "method" | "body">) =>

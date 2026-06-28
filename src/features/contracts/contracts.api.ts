@@ -99,6 +99,16 @@ export function generateContractPdf(
   return client.post<ContractDetail>(`/contracts/${id}/generate-pdf`, {});
 }
 
+export function signContract(
+  client: Client,
+  id: string,
+  signedPdfDocumentId: string,
+): Promise<ContractDetail> {
+  return client.patch<ContractDetail>(`/contracts/${id}/sign`, {
+    signedPdfDocumentId,
+  });
+}
+
 export function archiveContract(
   client: Client,
   id: string,

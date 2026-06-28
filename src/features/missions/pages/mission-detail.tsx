@@ -20,6 +20,7 @@ import { AmendmentList } from "@/features/missions/components/amendment-list";
 import { ArchiveMissionButton } from "@/features/missions/components/archive-mission-button";
 import { MissionFormDialog } from "@/features/missions/components/mission-form-dialog";
 import { MissionStatusControl } from "@/features/missions/components/mission-status-control";
+import { DocumentsPanel } from "@/features/documents/components/documents-panel";
 import { QueryBoundary } from "@/features/missions/query-boundary";
 import { useMission } from "@/features/missions/use-missions";
 import type { MissionDetail } from "@/features/missions/missions.types";
@@ -64,6 +65,7 @@ export function MissionDetailView({ id }: { id: string }) {
                   {fr.missions.tabAmendments}
                 </TabsTrigger>
               ) : null}
+              <TabsTrigger value="documents">{fr.documents.title}</TabsTrigger>
             </TabsList>
 
             <TabsContent value="info" className="space-y-6">
@@ -85,6 +87,9 @@ export function MissionDetailView({ id }: { id: string }) {
                 <AmendmentList missionId={id} />
               </TabsContent>
             ) : null}
+            <TabsContent value="documents">
+              <DocumentsPanel entityType="MISSION" entityId={id} />
+            </TabsContent>
           </Tabs>
         </section>
       )}

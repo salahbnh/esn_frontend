@@ -3,8 +3,15 @@
 import type { ReactNode } from "react";
 
 import { PageHeader } from "@/components/common/page-header";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/components/ui/tabs";
 import { fr } from "@/lib/i18n/fr";
 import { ClientFormDialog } from "@/features/clients/components/client-form-dialog";
+import { DocumentsPanel } from "@/features/documents/components/documents-panel";
 import { QueryBoundary } from "@/features/clients/query-boundary";
 import { useClient } from "@/features/clients/use-clients";
 
@@ -21,18 +28,33 @@ export function ClientDetailView({ id }: { id: string }) {
             actions={<ClientFormDialog client={client} />}
           />
 
-          <dl className="grid grid-cols-1 gap-x-8 gap-y-4 sm:grid-cols-2">
-            <Field label={fr.clients.industry}>{client.industry ?? "—"}</Field>
-            <Field label={fr.clients.missionCount}>
-              <span className="tabular-nums">{client._missionCount}</span>
-            </Field>
-            <Field label={fr.clients.contactName}>
-              {client.contactName ?? "—"}
-            </Field>
-            <Field label={fr.clients.contactEmail}>
-              {client.contactEmail ?? "—"}
-            </Field>
-          </dl>
+          <Tabs defaultValue="info">
+            <TabsList>
+              <TabsTrigger value="info">{fr.clients.tabInfo}</TabsTrigger>
+              <TabsTrigger value="documents">{fr.documents.title}</TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="info">
+              <dl className="grid grid-cols-1 gap-x-8 gap-y-4 sm:grid-cols-2">
+                <Field label={fr.clients.industry}>
+                  {client.industry ?? "—"}
+                </Field>
+                <Field label={fr.clients.missionCount}>
+                  <span className="tabular-nums">{client._missionCount}</span>
+                </Field>
+                <Field label={fr.clients.contactName}>
+                  {client.contactName ?? "—"}
+                </Field>
+                <Field label={fr.clients.contactEmail}>
+                  {client.contactEmail ?? "—"}
+                </Field>
+              </dl>
+            </TabsContent>
+
+            <TabsContent value="documents">
+              <DocumentsPanel entityType="CLIENT" entityId={id} />
+            </TabsContent>
+          </Tabs>
         </section>
       )}
     </QueryBoundary>

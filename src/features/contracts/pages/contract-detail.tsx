@@ -21,7 +21,9 @@ import { ContractContent } from "@/features/contracts/components/contract-conten
 import { ContractEditDialog } from "@/features/contracts/components/contract-edit-dialog";
 import { ContractFieldsForm } from "@/features/contracts/components/contract-fields-form";
 import { GeneratePdfButton } from "@/features/contracts/components/generate-pdf-button";
+import { SignContractDialog } from "@/features/contracts/components/sign-contract-dialog";
 import { SubmitContractButton } from "@/features/contracts/components/submit-contract-button";
+import { DocumentsPanel } from "@/features/documents/components/documents-panel";
 import { ValidateControl } from "@/features/contracts/components/validate-control";
 import { ValidationTimeline } from "@/features/contracts/components/validation-timeline";
 import { QueryBoundary } from "@/features/contracts/query-boundary";
@@ -74,6 +76,9 @@ export function ContractDetailView({ id }: { id: string }) {
                 <TabsTrigger value="content">
                   {fr.contracts.tabContent}
                 </TabsTrigger>
+                <TabsTrigger value="documents">
+                  {fr.contracts.tabDocuments}
+                </TabsTrigger>
                 <TabsTrigger value="amendments">
                   {fr.contracts.tabAmendments}
                 </TabsTrigger>
@@ -90,6 +95,15 @@ export function ContractDetailView({ id }: { id: string }) {
                   <ContractFieldsForm contract={contract} />
                 ) : null}
                 <ContractContent contract={contract} />
+              </TabsContent>
+
+              <TabsContent value="documents" className="space-y-4">
+                {canAuthor && contract.status === "PENDING_SIGNATURE" ? (
+                  <div className="flex justify-end">
+                    <SignContractDialog contractId={id} />
+                  </div>
+                ) : null}
+                <DocumentsPanel entityType="CONTRACT" entityId={id} />
               </TabsContent>
 
               <TabsContent value="amendments" className="space-y-4">

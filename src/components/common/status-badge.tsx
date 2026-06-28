@@ -118,7 +118,9 @@ const TONE_BY_VALUE: Record<string, Tone> = {
   // --- Document types (tags, light semantics) ---
   CV: "info",
   CONTRACT: "review",
-  AMENDMENT: "attention",
+  CONTRACT_AMENDMENT: "attention",
+  PROPOSAL: "pending",
+  MISSION_DOC: "active",
   OTHER: "neutral",
 };
 
