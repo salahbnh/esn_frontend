@@ -21,11 +21,13 @@ import { ContractContent } from "@/features/contracts/components/contract-conten
 import { ContractEditDialog } from "@/features/contracts/components/contract-edit-dialog";
 import { ContractFieldsForm } from "@/features/contracts/components/contract-fields-form";
 import { GeneratePdfButton } from "@/features/contracts/components/generate-pdf-button";
-import { SignContractDialog } from "@/features/contracts/components/sign-contract-dialog";
+import { CountersignButton } from "@/features/contracts/components/countersign-button";
+import { SigningStatus } from "@/features/contracts/components/signing-status";
 import { SubmitContractButton } from "@/features/contracts/components/submit-contract-button";
 import { DocumentsPanel } from "@/features/documents/components/documents-panel";
 import { ValidateControl } from "@/features/contracts/components/validate-control";
 import { ValidationTimeline } from "@/features/contracts/components/validation-timeline";
+import { canCountersign } from "@/features/contracts/contracts.workflow";
 import { QueryBoundary } from "@/features/contracts/query-boundary";
 import { useContract } from "@/features/contracts/use-contracts";
 import type { ContractDetail } from "@/features/contracts/contracts.types";
@@ -63,6 +65,9 @@ export function ContractDetailView({ id }: { id: string }) {
                   {canAuthor && canGeneratePdf ? (
                     <GeneratePdfButton contract={contract} />
                   ) : null}
+                  {canAuthor && canCountersign(contract) ? (
+                    <CountersignButton contractId={id} />
+                  ) : null}
                   {canAuthor && contract.status !== "ARCHIVED" ? (
                     <ArchiveContractButton contractId={id} />
                   ) : null}
@@ -86,6 +91,7 @@ export function ContractDetailView({ id }: { id: string }) {
 
               <TabsContent value="info" className="space-y-6">
                 <ContractInfo contract={contract} />
+                <SigningStatus contract={contract} />
                 <ValidationTimeline validations={contract.validations} />
                 <ValidateControl contract={contract} />
               </TabsContent>
@@ -98,11 +104,6 @@ export function ContractDetailView({ id }: { id: string }) {
               </TabsContent>
 
               <TabsContent value="documents" className="space-y-4">
-                {canAuthor && contract.status === "PENDING_SIGNATURE" ? (
-                  <div className="flex justify-end">
-                    <SignContractDialog contractId={id} />
-                  </div>
-                ) : null}
                 <DocumentsPanel entityType="CONTRACT" entityId={id} />
               </TabsContent>
 

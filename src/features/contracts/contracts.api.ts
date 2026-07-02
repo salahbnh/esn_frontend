@@ -15,6 +15,7 @@ import type {
   CreateContractBody,
   ListContractsQuery,
   PaginationQuery,
+  RejectContractBody,
   TemplateList,
   UpdateContractBody,
   ValidateStepBody,
@@ -99,14 +100,39 @@ export function generateContractPdf(
   return client.post<ContractDetail>(`/contracts/${id}/generate-pdf`, {});
 }
 
-export function signContract(
+/** CONSULTANT self-service: my own contracts. */
+export function listMyContracts(
+  client: Client,
+  query: PaginationQuery = {},
+): Promise<ContractList> {
+  return client.get<ContractList>("/contracts/mine", {
+    query: { page: query.page, pageSize: query.pageSize },
+  });
+}
+
+/** CONSULTANT signs their own contract (in-app stamp; empty body). */
+export function consultantSignContract(
   client: Client,
   id: string,
-  signedPdfDocumentId: string,
 ): Promise<ContractDetail> {
-  return client.patch<ContractDetail>(`/contracts/${id}/sign`, {
-    signedPdfDocumentId,
-  });
+  return client.patch<ContractDetail>(`/contracts/${id}/consultant-sign`, {});
+}
+
+/** CONSULTANT rejects their own contract with a reason (→ DRAFT). */
+export function rejectContract(
+  client: Client,
+  id: string,
+  body: RejectContractBody,
+): Promise<ContractDetail> {
+  return client.patch<ContractDetail>(`/contracts/${id}/reject`, body);
+}
+
+/** RH/DIRECTION countersigns after the consultant signed (→ SIGNED; empty body). */
+export function countersignContract(
+  client: Client,
+  id: string,
+): Promise<ContractDetail> {
+  return client.patch<ContractDetail>(`/contracts/${id}/countersign`, {});
 }
 
 export function archiveContract(

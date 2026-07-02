@@ -40,6 +40,8 @@ export const contractKeys = {
   amendmentList: (id: string, q: PaginationQuery) =>
     [...contractKeys.amendments(id), q] as const,
   templates: () => [...contractKeys.all, "templates"] as const,
+  mines: () => [...contractKeys.all, "mine"] as const,
+  mine: (q: PaginationQuery) => [...contractKeys.mines(), q] as const,
 };
 
 function useApiReady(): boolean {
@@ -55,6 +57,7 @@ function useApiReady(): boolean {
 function invalidateForContract(qc: QueryClient, c: Contract): void {
   qc.invalidateQueries({ queryKey: contractKeys.lists() });
   qc.invalidateQueries({ queryKey: contractKeys.detail(c.id) });
+  qc.invalidateQueries({ queryKey: contractKeys.mines() });
   qc.invalidateQueries({ queryKey: consultantKeys.detail(c.consultantId) });
   qc.invalidateQueries({ queryKey: consultantKeys.lists() });
   qc.invalidateQueries({ queryKey: documentKeys.lists() });
@@ -151,12 +154,39 @@ export function useGenerateContractPdf(id: string) {
   });
 }
 
-export function useSignContract(id: string) {
+export function useMyContracts(query: PaginationQuery = {}) {
+  const client = useApi();
+  const enabled = useApiReady();
+  return useQuery({
+    queryKey: contractKeys.mine(query),
+    queryFn: () => api.listMyContracts(client, query),
+    enabled,
+  });
+}
+
+export function useConsultantSignContract(id: string) {
   const client = useApi();
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (signedPdfDocumentId: string) =>
-      api.signContract(client, id, signedPdfDocumentId),
+    mutationFn: () => api.consultantSignContract(client, id),
+    onSuccess: (data) => invalidateForContract(qc, data),
+  });
+}
+
+export function useRejectContract(id: string) {
+  const client = useApi();
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (reason: string) => api.rejectContract(client, id, { reason }),
+    onSuccess: (data) => invalidateForContract(qc, data),
+  });
+}
+
+export function useCountersignContract(id: string) {
+  const client = useApi();
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: () => api.countersignContract(client, id),
     onSuccess: (data) => invalidateForContract(qc, data),
   });
 }

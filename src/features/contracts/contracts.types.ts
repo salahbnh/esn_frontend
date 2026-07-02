@@ -69,6 +69,12 @@ export interface Contract {
   startDate: ISODateString | null;
   endDate: ISODateString | null;
   archivedAt: ISODateString | null;
+  // Two-party signing
+  consultantSignedAt: ISODateString | null;
+  consultantSignatoryName: string | null;
+  companySignedAt: ISODateString | null;
+  companySignatoryName: string | null;
+  rejectionReason: string | null;
   createdAt: ISODateString;
   updatedAt: ISODateString;
   consultant: ContractConsultant;
@@ -98,6 +104,10 @@ export interface UpdateContractBody {
   startDate?: string;
   endDate?: string;
   fields?: Record<string, string>;
+}
+
+export interface RejectContractBody {
+  reason: string;
 }
 
 export interface ValidateStepBody {

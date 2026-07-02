@@ -78,6 +78,14 @@ export function contractErrorMessage(err: unknown): string {
       return fr.contracts.errNotPendingSignature;
     case "CONTRACT_NOT_SIGNED":
       return fr.contracts.errNotSigned;
+    case "CONTRACT_NO_PDF":
+      return fr.contracts.errNoPdf;
+    case "ALREADY_SIGNED_BY_CONSULTANT":
+      return fr.contracts.errAlreadySigned;
+    case "CONSULTANT_NOT_YET_SIGNED":
+      return fr.contracts.errConsultantNotSigned;
+    case "ALREADY_COUNTERSIGNED":
+      return fr.contracts.errAlreadyCountersigned;
     case "NOT_IN_VALIDATION":
     case "NO_PENDING_STEP":
       return fr.contracts.errNotInValidation;

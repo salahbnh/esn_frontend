@@ -569,11 +569,40 @@ export const fr = {
     generatePdf: "Générer le PDF",
     generateSuccess: "PDF généré",
     pdfGenerated: "PDF généré ✓",
-    sign: "Signer",
-    signDeferred: "Disponible avec le module Documents (M8)",
     archive: "Archiver",
     archived: "Contrat archivé",
     archiveConfirm: "Archiver ce contrat ?",
+    // two-party signing
+    consultantSign: "Signer le contrat",
+    consultantSignConfirm:
+      "En signant, votre nom et la date seront apposés sur le document. Confirmez-vous ?",
+    reject_: "Refuser",
+    rejectTitle: "Refuser le contrat",
+    rejectHint:
+      "Indiquez le motif du refus. Le contrat repassera à l'état Brouillon pour révision.",
+    rejectReason: "Motif du refus",
+    countersign: "Contresigner",
+    countersignTitle: "Contresigner le contrat",
+    countersignHint:
+      "Votre nom et la date seront apposés sur le document généré, et le contrat passera au statut Signé.",
+    signSuccess: "Contrat signé",
+    rejectSuccess: "Contrat refusé — repassé en brouillon",
+    countersignSuccess: "Contrat contresigné — statut Signé",
+    awaitingConsultant: "En attente de la signature du consultant",
+    awaitingCompany: "En attente de la contresignature (RH / Direction)",
+    signedByConsultant: "Signé par le consultant",
+    countersignedByCompany: "Contresigné par",
+    rejectedBanner: "Contrat refusé par le consultant",
+    needsPdfFirst:
+      "Générez d'abord le PDF (le document doit exister avant la signature).",
+    // consultant self-service
+    myContractsTitle: "Mes contrats",
+    myContractsSubtitle: "Consultez et signez vos contrats",
+    pendingSection: "En attente de votre signature",
+    historySection: "Historique",
+    noMyContracts: "Aucun contrat",
+    noMyContractsHint: "Vos contrats apparaîtront ici.",
+    downloadPdf: "Télécharger le PDF",
     // prefill / content
     contentTitle: "Contenu du contrat",
     fieldsToComplete: "Champs à compléter",
@@ -599,6 +628,10 @@ export const fr = {
     errNoBody: "Le modèle de contrat est vide.",
     errNotPendingSignature: "Le contrat n'est pas en attente de signature.",
     errNotSigned: "Les avenants ne sont possibles que sur un contrat signé.",
+    errNoPdf: "Le PDF du contrat n'a pas encore été généré.",
+    errAlreadySigned: "Vous avez déjà signé ce contrat.",
+    errConsultantNotSigned: "Le consultant n'a pas encore signé.",
+    errAlreadyCountersigned: "Ce contrat a déjà été contresigné.",
     errNotInValidation: "Le contrat n'est pas en cours de validation.",
     generateNoBodyHint:
       "Aucun contenu à générer — associez un modèle et complétez les champs.",
