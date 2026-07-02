@@ -80,6 +80,11 @@ export function changeConsultantStatus(
   return client.patch<ConsultantListItem>(`/consultants/${id}/status`, body);
 }
 
+/** Re-send the set-password invite email (RH/DIRECTION). Returns 204 (no body). */
+export function resendConsultantInvite(client: Client, id: string): Promise<void> {
+  return client.post<void>(`/consultants/${id}/resend-invite`);
+}
+
 // --- Self-service (/me) ----------------------------------------------------
 
 export function getOwnProfile(client: Client): Promise<ConsultantDetail> {

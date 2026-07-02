@@ -342,6 +342,9 @@ export const fr = {
     tabProfile: "Profil",
     tabDocuments: "Documents",
     tabAssignments: "Affectations",
+    // onboarding invite
+    resendInvite: "Renvoyer l'invitation",
+    resendInviteSuccess: "Invitation envoyée",
     // admin edit
     editTitle: "Modifier le consultant",
     editHint: "Modification de la fiche administrative du consultant.",

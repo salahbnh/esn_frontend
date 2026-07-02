@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/tabs";
 import { fr } from "@/lib/i18n/fr";
 import { AdminEditDialog } from "@/features/consultants/components/admin-edit-dialog";
+import { ResendInviteButton } from "@/features/consultants/components/resend-invite-button";
 import { ConsultantProfile } from "@/features/consultants/components/consultant-profile";
 import { DocumentsPanel } from "@/features/documents/components/documents-panel";
 import { ConsultantStatusControl } from "@/features/consultants/components/consultant-status-control";
@@ -42,7 +43,10 @@ export function ConsultantDetailView({ id }: { id: string }) {
                 <StatusBadge kind="consultant" value={consultant.status} />
                 <ConsultantOccupancyLink consultantId={consultant.id} />
                 {canAdminEdit ? (
-                  <AdminEditDialog consultant={consultant} />
+                  <>
+                    <ResendInviteButton consultantId={consultant.id} />
+                    <AdminEditDialog consultant={consultant} />
+                  </>
                 ) : null}
               </>
             }

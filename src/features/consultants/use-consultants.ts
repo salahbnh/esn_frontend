@@ -132,3 +132,11 @@ export function useSelfEditProfile() {
     },
   });
 }
+
+/** Re-send the set-password invite (RH/DIRECTION). No cache change on success. */
+export function useResendConsultantInvite(id: string) {
+  const client = useApi();
+  return useMutation({
+    mutationFn: () => api.resendConsultantInvite(client, id),
+  });
+}
