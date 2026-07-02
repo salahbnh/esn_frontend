@@ -1,6 +1,8 @@
 "use client";
 
 import { useSession } from "next-auth/react";
+import Link from "next/link";
+import { FileText } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 
 import { EmptyState } from "@/components/common/async-states";
@@ -58,7 +60,19 @@ export function ContractsListView() {
       <PageHeader
         title={fr.contracts.title}
         subtitle={fr.contracts.subtitle}
-        actions={canAuthor ? <ContractCreateDialog /> : undefined}
+        actions={
+          canAuthor ? (
+            <>
+              <Button asChild variant="outline">
+                <Link href="/contracts/templates">
+                  <FileText className="h-4 w-4" />
+                  {fr.templates.manage}
+                </Link>
+              </Button>
+              <ContractCreateDialog />
+            </>
+          ) : undefined
+        }
       />
 
       <ContractFilters

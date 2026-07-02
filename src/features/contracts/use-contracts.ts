@@ -19,6 +19,7 @@ import { useSession } from "next-auth/react";
 import { useApi } from "@/lib/use-api";
 import * as api from "@/features/contracts/contracts.api";
 import { consultantKeys } from "@/features/consultants/use-consultants";
+import { documentKeys } from "@/features/documents/use-documents";
 import type {
   Contract,
   CreateContractAmendmentBody,
@@ -46,12 +47,17 @@ function useApiReady(): boolean {
   return status === "authenticated";
 }
 
-/** Invalidate the contract lists + this contract's detail, plus the consultant. */
+/**
+ * Invalidate the contract lists + this contract's detail, plus the consultant.
+ * Also the documents lists, because generate-pdf / sign create CONTRACT documents
+ * that the contract's Documents tab must reflect without a manual refresh.
+ */
 function invalidateForContract(qc: QueryClient, c: Contract): void {
   qc.invalidateQueries({ queryKey: contractKeys.lists() });
   qc.invalidateQueries({ queryKey: contractKeys.detail(c.id) });
   qc.invalidateQueries({ queryKey: consultantKeys.detail(c.consultantId) });
   qc.invalidateQueries({ queryKey: consultantKeys.lists() });
+  qc.invalidateQueries({ queryKey: documentKeys.lists() });
 }
 
 // --- Queries ---------------------------------------------------------------

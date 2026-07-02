@@ -639,6 +639,36 @@ export const fr = {
     saveError: "Échec de l'opération. Veuillez réessayer.",
     cancel: "Annuler",
   },
+  templates: {
+    title: "Modèles de contrat",
+    subtitle: "Modèles utilisés pour générer les contrats",
+    manage: "Modèles",
+    back: "Retour aux contrats",
+    new: "Nouveau modèle",
+    editTitle: "Modifier le modèle",
+    name: "Nom",
+    body: "Corps du modèle",
+    bodyHint:
+      "Insérez des champs entre {{ }}. Les champs automatiques sont remplis depuis le consultant ; les autres sont à compléter par le RH avant génération.",
+    status: "Statut",
+    active: "Actif",
+    inactive: "Inactif",
+    updatedAt: "Mis à jour",
+    deactivate: "Désactiver",
+    deactivateConfirm:
+      "Désactiver ce modèle ? Il ne sera plus proposé à la création d'un contrat.",
+    includeInactive: "Inclure les inactifs",
+    noResults: "Aucun modèle",
+    noResultsHint: "Créez un modèle pour générer des contrats.",
+    autoPlaceholders: "Champs automatiques disponibles :",
+    createSuccess: "Modèle créé",
+    updateSuccess: "Modifications enregistrées",
+    deactivateSuccess: "Modèle désactivé",
+    saveError: "Échec de l'enregistrement. Veuillez réessayer.",
+    cancel: "Annuler",
+    save: "Enregistrer",
+    create: "Créer",
+  },
 } as const;
 
 export type FrDictionary = typeof fr;
