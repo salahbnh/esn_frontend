@@ -113,6 +113,15 @@ export interface PaginatedResult<T> {
   total: number;
 }
 
+/** Referential competence (canonical, shared across modules). */
+export interface Skill {
+  id: string;
+  name: string;
+  category: string | null;
+  createdAt?: ISODateString;
+  updatedAt?: ISODateString;
+}
+
 /** Backend error envelope: `{ error: { code, message, details? } }`. */
 export interface ApiErrorShape {
   error: {

@@ -13,6 +13,7 @@ import {
   LayoutDashboard,
   type LucideIcon,
   ScrollText,
+  Tag,
   UserCircle,
   Users,
   UsersRound,
@@ -101,6 +102,12 @@ const NAV_MODEL: NavSection[] = [
         label: fr.nav.documents,
         href: "/documents",
         icon: FolderOpen,
+        roles: ["RH", "DIRECTION"],
+      },
+      {
+        label: fr.nav.skills,
+        href: "/skills",
+        icon: Tag,
         roles: ["RH", "DIRECTION"],
       },
       {

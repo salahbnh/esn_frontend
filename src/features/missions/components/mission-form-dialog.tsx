@@ -40,6 +40,7 @@ import {
   useCreateMission,
   useUpdateMission,
 } from "@/features/missions/use-missions";
+import { SkillPicker } from "@/features/skills/components/skill-picker";
 import type { MissionDetail } from "@/features/missions/missions.types";
 
 function toFormValues(m?: MissionDetail): MissionForm {
@@ -58,6 +59,9 @@ function toFormValues(m?: MissionDetail): MissionForm {
 export function MissionFormDialog({ mission }: { mission?: MissionDetail }) {
   const isEdit = Boolean(mission);
   const [open, setOpen] = useState(false);
+  const [requiredSkillIds, setRequiredSkillIds] = useState<string[]>(
+    mission?.requiredSkills.map((s) => s.id) ?? [],
+  );
   const createMutation = useCreateMission();
   const updateMutation = useUpdateMission(mission?.id ?? "");
   const mutation = isEdit ? updateMutation : createMutation;
@@ -77,10 +81,10 @@ export function MissionFormDialog({ mission }: { mission?: MissionDetail }) {
   const onSubmit = handleSubmit(async (values) => {
     try {
       if (isEdit) {
-        await updateMutation.mutateAsync(toUpdateMissionBody(values));
+        await updateMutation.mutateAsync({ ...toUpdateMissionBody(values), requiredSkillIds });
         toast.success(fr.missions.updateSuccess);
       } else {
-        await createMutation.mutateAsync(toCreateMissionBody(values));
+        await createMutation.mutateAsync({ ...toCreateMissionBody(values), requiredSkillIds });
         toast.success(fr.missions.createSuccess);
       }
       reset(isEdit ? values : toFormValues());
@@ -91,7 +95,10 @@ export function MissionFormDialog({ mission }: { mission?: MissionDetail }) {
   });
 
   function onOpenChange(next: boolean) {
-    if (next) reset(toFormValues(mission));
+    if (next) {
+      reset(toFormValues(mission));
+      setRequiredSkillIds(mission?.requiredSkills.map((s) => s.id) ?? []);
+    }
     setOpen(next);
   }
 
@@ -208,7 +215,10 @@ export function MissionFormDialog({ mission }: { mission?: MissionDetail }) {
             />
           </div>
 
-          {/* TODO(skills): sélecteur de compétences requises — après l'endpoint /api/skills. */}
+          <div className="space-y-1.5">
+            <Label>{fr.skills.requiredLabel}</Label>
+            <SkillPicker value={requiredSkillIds} onChange={setRequiredSkillIds} />
+          </div>
 
           <DialogFooter>
             <Button

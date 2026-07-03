@@ -29,6 +29,7 @@ import {
   type CreateCandidateForm,
 } from "@/features/recruitment/recruitment.schemas";
 import { useCreateCandidate } from "@/features/recruitment/use-recruitment";
+import { SkillPicker } from "@/features/skills/components/skill-picker";
 
 const EMPTY: CreateCandidateForm = {
   firstName: "",
@@ -43,6 +44,7 @@ const EMPTY: CreateCandidateForm = {
 /** RH-only "Nouveau candidat" dialog. Self-contained trigger + form. */
 export function CreateCandidateDialog() {
   const [open, setOpen] = useState(false);
+  const [skillIds, setSkillIds] = useState<string[]>([]);
   const mutation = useCreateCandidate();
   const {
     register,
@@ -56,9 +58,10 @@ export function CreateCandidateDialog() {
 
   const onSubmit = handleSubmit(async (values) => {
     try {
-      await mutation.mutateAsync(toCreateBody(values));
+      await mutation.mutateAsync({ ...toCreateBody(values), skillIds });
       toast.success(fr.candidates.createSuccess);
       reset(EMPTY);
+      setSkillIds([]);
       setOpen(false);
     } catch (err) {
       toast.error(candidateErrorMessage(err));
@@ -66,7 +69,10 @@ export function CreateCandidateDialog() {
   });
 
   function onOpenChange(next: boolean) {
-    if (!next) reset(EMPTY);
+    if (!next) {
+      reset(EMPTY);
+      setSkillIds([]);
+    }
     setOpen(next);
   }
 
@@ -135,6 +141,11 @@ export function CreateCandidateDialog() {
           <div className="space-y-1.5">
             <Label htmlFor="notes">{fr.candidates.notes}</Label>
             <Textarea id="notes" rows={3} {...register("notes")} />
+          </div>
+
+          <div className="space-y-1.5">
+            <Label>{fr.skills.fieldLabel}</Label>
+            <SkillPicker value={skillIds} onChange={setSkillIds} />
           </div>
 
           <DialogFooter>

@@ -29,9 +29,10 @@ import {
   type UpdateCandidateForm,
 } from "@/features/recruitment/recruitment.schemas";
 import { useUpdateCandidate } from "@/features/recruitment/use-recruitment";
-import type { Candidate } from "@/features/recruitment/recruitment.types";
+import { SkillPicker } from "@/features/skills/components/skill-picker";
+import type { CandidateDetail } from "@/features/recruitment/recruitment.types";
 
-function toFormValues(c: Candidate): UpdateCandidateForm {
+function toFormValues(c: CandidateDetail): UpdateCandidateForm {
   return {
     firstName: c.firstName,
     lastName: c.lastName,
@@ -44,8 +45,9 @@ function toFormValues(c: Candidate): UpdateCandidateForm {
 }
 
 /** RH-only "Modifier" dialog, prefilled from the candidate. */
-export function EditCandidateDialog({ candidate }: { candidate: Candidate }) {
+export function EditCandidateDialog({ candidate }: { candidate: CandidateDetail }) {
   const [open, setOpen] = useState(false);
+  const [skillIds, setSkillIds] = useState<string[]>(candidate.skills.map((s) => s.id));
   const mutation = useUpdateCandidate(candidate.id);
   const {
     register,
@@ -59,7 +61,7 @@ export function EditCandidateDialog({ candidate }: { candidate: Candidate }) {
 
   const onSubmit = handleSubmit(async (values) => {
     try {
-      await mutation.mutateAsync(toUpdateBody(values));
+      await mutation.mutateAsync({ ...toUpdateBody(values), skillIds });
       toast.success(fr.candidates.updateSuccess);
       setOpen(false);
     } catch (err) {
@@ -69,7 +71,10 @@ export function EditCandidateDialog({ candidate }: { candidate: Candidate }) {
 
   function onOpenChange(next: boolean) {
     // Re-sync the form to the latest candidate each time the dialog opens.
-    if (next) reset(toFormValues(candidate));
+    if (next) {
+      reset(toFormValues(candidate));
+      setSkillIds(candidate.skills.map((s) => s.id));
+    }
     setOpen(next);
   }
 
@@ -140,6 +145,11 @@ export function EditCandidateDialog({ candidate }: { candidate: Candidate }) {
           <div className="space-y-1.5">
             <Label htmlFor="edit-notes">{fr.candidates.notes}</Label>
             <Textarea id="edit-notes" rows={3} {...register("notes")} />
+          </div>
+
+          <div className="space-y-1.5">
+            <Label>{fr.skills.fieldLabel}</Label>
+            <SkillPicker value={skillIds} onChange={setSkillIds} />
           </div>
 
           <DialogFooter>

@@ -27,7 +27,8 @@ import {
   type ConvertCandidateForm,
 } from "@/features/recruitment/recruitment.schemas";
 import { useConvertCandidate } from "@/features/recruitment/use-recruitment";
-import type { Candidate } from "@/features/recruitment/recruitment.types";
+import { SkillPicker } from "@/features/skills/components/skill-picker";
+import type { CandidateDetail } from "@/features/recruitment/recruitment.types";
 
 const EMPTY: ConvertCandidateForm = {
   position: "",
@@ -46,9 +47,10 @@ const EMPTY: ConvertCandidateForm = {
 export function ConvertCandidateDialog({
   candidate,
 }: {
-  candidate: Candidate;
+  candidate: CandidateDetail;
 }) {
   const [open, setOpen] = useState(false);
+  const [skillIds, setSkillIds] = useState<string[]>(candidate.skills.map((s) => s.id));
   const router = useRouter();
   const mutation = useConvertCandidate(candidate.id);
   const {
@@ -63,7 +65,7 @@ export function ConvertCandidateDialog({
 
   const onSubmit = handleSubmit(async (values) => {
     try {
-      const result = await mutation.mutateAsync(toConvertBody(values));
+      const result = await mutation.mutateAsync({ ...toConvertBody(values), skillIds });
       toast.success(fr.candidates.convertSuccess);
       setOpen(false);
       // The new consultant page now exists (M4) — take the user straight to it.
@@ -74,7 +76,10 @@ export function ConvertCandidateDialog({
   });
 
   function onOpenChange(next: boolean) {
-    if (next) reset({ ...EMPTY, position: candidate.targetPosition ?? "" });
+    if (next) {
+      reset({ ...EMPTY, position: candidate.targetPosition ?? "" });
+      setSkillIds(candidate.skills.map((s) => s.id));
+    }
     setOpen(next);
   }
 
@@ -134,6 +139,11 @@ export function ConvertCandidateDialog({
           <div className="space-y-1.5">
             <Label htmlFor="convert-bio">{fr.candidates.bio}</Label>
             <Textarea id="convert-bio" rows={3} {...register("bio")} />
+          </div>
+
+          <div className="space-y-1.5">
+            <Label>{fr.skills.fieldLabel}</Label>
+            <SkillPicker value={skillIds} onChange={setSkillIds} />
           </div>
 
           <DialogFooter>

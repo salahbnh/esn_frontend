@@ -29,6 +29,7 @@ import {
   type AdminUpdateForm,
 } from "@/features/consultants/consultants.schemas";
 import { useAdminUpdateConsultant } from "@/features/consultants/use-consultants";
+import { SkillPicker } from "@/features/skills/components/skill-picker";
 import type { ConsultantDetail } from "@/features/consultants/consultants.types";
 
 function toFormValues(c: ConsultantDetail): AdminUpdateForm {
@@ -44,6 +45,7 @@ function toFormValues(c: ConsultantDetail): AdminUpdateForm {
 /** RH/DIRECTION admin edit of a consultant's administrative profile. */
 export function AdminEditDialog({ consultant }: { consultant: ConsultantDetail }) {
   const [open, setOpen] = useState(false);
+  const [skillIds, setSkillIds] = useState<string[]>(consultant.skills.map((s) => s.id));
   const mutation = useAdminUpdateConsultant(consultant.id);
   const {
     register,
@@ -57,7 +59,7 @@ export function AdminEditDialog({ consultant }: { consultant: ConsultantDetail }
 
   const onSubmit = handleSubmit(async (values) => {
     try {
-      await mutation.mutateAsync(toAdminUpdateBody(values));
+      await mutation.mutateAsync({ ...toAdminUpdateBody(values), skillIds });
       toast.success(fr.consultants.saveSuccess);
       setOpen(false);
     } catch (err) {
@@ -66,7 +68,10 @@ export function AdminEditDialog({ consultant }: { consultant: ConsultantDetail }
   });
 
   function onOpenChange(next: boolean) {
-    if (next) reset(toFormValues(consultant));
+    if (next) {
+      reset(toFormValues(consultant));
+      setSkillIds(consultant.skills.map((s) => s.id));
+    }
     setOpen(next);
   }
 
@@ -134,7 +139,10 @@ export function AdminEditDialog({ consultant }: { consultant: ConsultantDetail }
             <Textarea id="bio" rows={3} {...register("bio")} />
           </div>
 
-          {/* TODO(skills): sélecteur de compétences — disponible après l'endpoint /api/skills. */}
+          <div className="space-y-1.5">
+            <Label>{fr.skills.fieldLabel}</Label>
+            <SkillPicker value={skillIds} onChange={setSkillIds} />
+          </div>
 
           <DialogFooter>
             <Button

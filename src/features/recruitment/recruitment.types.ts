@@ -8,7 +8,11 @@ import type {
   CandidateStatus,
   ISODateString,
   PaginatedResult,
+  Skill,
 } from "@/lib/types";
+
+/** Referential skill — canonical type lives in `@/lib/types`; re-exported for back-compat. */
+export type { Skill };
 
 export type InteractionType = "CALL" | "EMAIL" | "INTERVIEW" | "NOTE";
 export type ProposalStatus = "DRAFT" | "SENT" | "ACCEPTED" | "DECLINED";
@@ -26,13 +30,6 @@ export interface Candidate {
   status: CandidateStatus;
   createdAt: ISODateString;
   updatedAt: ISODateString;
-}
-
-/** Referential skill (read-only here; no skills endpoint yet). */
-export interface Skill {
-  id: string;
-  name: string;
-  category: string | null;
 }
 
 export interface CandidateInteraction {
@@ -105,7 +102,7 @@ export interface CreateCandidateBody {
   source?: string;
   targetPosition?: string;
   notes?: string;
-  // skillIds deferred — no /api/skills endpoint yet.
+  skillIds?: string[];
 }
 
 export type UpdateCandidateBody = Partial<CreateCandidateBody>;
@@ -142,7 +139,7 @@ export interface ConvertCandidateBody {
   tjm?: string; // decimal string e.g. "650.00"
   seniority?: string;
   bio?: string;
-  // skillIds deferred.
+  skillIds?: string[];
 }
 
 // --- Query params + list envelopes -----------------------------------------

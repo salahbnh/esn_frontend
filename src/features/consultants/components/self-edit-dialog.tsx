@@ -29,6 +29,7 @@ import {
   type SelfEditForm,
 } from "@/features/consultants/consultants.schemas";
 import { useSelfEditProfile } from "@/features/consultants/use-consultants";
+import { SkillPicker } from "@/features/skills/components/skill-picker";
 import type { ConsultantDetail } from "@/features/consultants/consultants.types";
 
 /**
@@ -37,6 +38,7 @@ import type { ConsultantDetail } from "@/features/consultants/consultants.types"
  */
 export function SelfEditDialog({ consultant }: { consultant: ConsultantDetail }) {
   const [open, setOpen] = useState(false);
+  const [skillIds, setSkillIds] = useState<string[]>(consultant.skills.map((s) => s.id));
   const mutation = useSelfEditProfile();
   const { register, handleSubmit, reset } = useForm<SelfEditForm>({
     resolver: zodResolver(selfEditSchema),
@@ -48,7 +50,7 @@ export function SelfEditDialog({ consultant }: { consultant: ConsultantDetail })
 
   const onSubmit = handleSubmit(async (values) => {
     try {
-      await mutation.mutateAsync(toSelfEditBody(values));
+      await mutation.mutateAsync({ ...toSelfEditBody(values), skillIds });
       toast.success(fr.consultants.saveSuccess);
       setOpen(false);
     } catch (err) {
@@ -62,6 +64,7 @@ export function SelfEditDialog({ consultant }: { consultant: ConsultantDetail })
         bio: consultant.bio ?? "",
         seniority: consultant.seniority ?? "",
       });
+      setSkillIds(consultant.skills.map((s) => s.id));
     }
     setOpen(next);
   }
@@ -95,7 +98,10 @@ export function SelfEditDialog({ consultant }: { consultant: ConsultantDetail })
             <Textarea id="me-bio" rows={4} {...register("bio")} />
           </div>
 
-          {/* TODO(skills): sélecteur de compétences — disponible après l'endpoint /api/skills. */}
+          <div className="space-y-1.5">
+            <Label>{fr.skills.fieldLabel}</Label>
+            <SkillPicker value={skillIds} onChange={setSkillIds} />
+          </div>
 
           <DialogFooter>
             <Button
