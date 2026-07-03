@@ -12,6 +12,7 @@ import {
   FolderOpen,
   LayoutDashboard,
   type LucideIcon,
+  Megaphone,
   ScrollText,
   Tag,
   UserCircle,
@@ -109,6 +110,12 @@ const NAV_MODEL: NavSection[] = [
         href: "/skills",
         icon: Tag,
         roles: ["RH", "DIRECTION"],
+      },
+      {
+        label: fr.nav.jobPosts,
+        href: "/job-posts",
+        icon: Megaphone,
+        roles: ["RH", "MANAGER", "DIRECTION"],
       },
       {
         label: fr.nav.reports,
