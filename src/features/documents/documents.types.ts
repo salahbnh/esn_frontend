@@ -25,7 +25,7 @@ export interface DocumentMeta {
   filename: string;
   mimeType: string;
   sizeBytes: number;
-  uploadedById: string;
+  uploadedById: string | null; // null for public (anonymous) portal uploads
   createdAt: ISODateString;
 }
 
