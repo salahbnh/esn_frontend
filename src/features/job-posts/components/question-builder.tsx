@@ -108,12 +108,18 @@ export function QuestionBuilder({ jobPostId }: { jobPostId: string }) {
                   >
                     <ArrowDown className="h-4 w-4" />
                   </Button>
-                  <Button variant="outline" size="sm" onClick={() => setEditing(q)}>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setEditing(q)}
+                    aria-label={fr.jobPosts.editQuestion}
+                  >
                     <Pencil className="h-4 w-4" />
                   </Button>
                   <Button
                     variant="outline"
                     size="sm"
+                    aria-label={fr.jobPosts.questionRemoved}
                     onClick={() => {
                       archive.mutate(q.id, {
                         onSuccess: () => toast.success(fr.jobPosts.questionRemoved),

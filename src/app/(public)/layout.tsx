@@ -13,7 +13,7 @@ export default function PublicLayout({ children }: { children: ReactNode }) {
       <header className="border-b bg-background">
         <div className="mx-auto max-w-3xl px-4 py-4">
           <span className="font-semibold">{fr.app.name}</span>
-          <span className="ml-2 text-sm text-muted-foreground">Carrières</span>
+          <span className="ml-2 text-sm text-muted-foreground">{fr.publicJobs.careers}</span>
         </div>
       </header>
       <main className="mx-auto max-w-3xl px-4 py-8">{children}</main>

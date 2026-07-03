@@ -4,6 +4,7 @@
  */
 
 import { env } from "@/lib/env";
+import { fr } from "@/lib/i18n/fr";
 import type { PublicJobResult } from "@/features/public-jobs/public-jobs.types";
 
 const base = env.apiBaseUrl.replace(/\/$/, "");
@@ -50,10 +51,10 @@ export async function submitApplication(token: string, form: FormData): Promise<
       const data = (await res.json()) as { referenceId?: string };
       return { ok: true, ...(data.referenceId ? { referenceId: data.referenceId } : {}) };
     }
-    if (res.status === 429) return { ok: false, errorMessage: "Trop de tentatives. Réessayez plus tard." };
+    if (res.status === 429) return { ok: false, errorMessage: fr.publicJobs.rateLimited };
     const data = (await res.json().catch(() => ({}))) as { error?: { message?: string } };
-    return { ok: false, errorMessage: data.error?.message ?? "Échec de l'envoi. Veuillez réessayer." };
+    return { ok: false, errorMessage: data.error?.message ?? fr.publicJobs.submitError };
   } catch {
-    return { ok: false, errorMessage: "Échec de l'envoi. Veuillez réessayer." };
+    return { ok: false, errorMessage: fr.publicJobs.submitError };
   }
 }

@@ -40,8 +40,8 @@ export function ApplicationDetailView({ appId }: { appId: string }) {
           />
 
           <dl className="grid grid-cols-1 gap-x-8 gap-y-4 sm:grid-cols-2">
-            <Field label="Email">{appli.email}</Field>
-            <Field label="Téléphone">{appli.phone ?? "—"}</Field>
+            <Field label={fr.jobPosts.email}>{appli.email}</Field>
+            <Field label={fr.jobPosts.phone}>{appli.phone ?? "—"}</Field>
             <Field label={fr.jobPosts.receivedAt}>{formatDate(appli.createdAt)}</Field>
           </dl>
 
@@ -114,7 +114,7 @@ function Answers({ answers }: { answers: AnswerSnapshot[] }) {
 
 function formatAnswer(value: AnswerSnapshot["value"]): string {
   if (Array.isArray(value)) return value.join(", ");
-  if (typeof value === "boolean") return value ? "Oui" : "Non";
+  if (typeof value === "boolean") return value ? fr.jobPosts.yes : fr.jobPosts.no;
   return String(value);
 }
 

@@ -9,8 +9,11 @@ function detailCode(err: unknown): string | undefined {
 }
 
 export function jobPostErrorMessage(err: unknown): string {
-  if (err instanceof ApiError && err.status === 422) return fr.jobPosts.errNotDraft;
   switch (detailCode(err)) {
+    case "JOB_POST_NOT_DRAFT":
+    case "JOB_POST_NOT_PUBLISHABLE":
+    case "JOB_POST_NOT_PUBLISHED":
+      return fr.jobPosts.errNotDraft;
     case "CANDIDATE_IS_CONSULTANT":
       return fr.jobPosts.errIsConsultant;
     case "JOB_POST_HAS_APPLICATIONS":

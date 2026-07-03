@@ -17,17 +17,17 @@ export default function PublicJobPage({ params }: { params: Promise<{ token: str
   }, [token]);
 
   if (result === null) {
-    return <p className="text-sm text-muted-foreground">Chargement…</p>;
+    return <p className="text-sm text-muted-foreground">{fr.publicJobs.loading}</p>;
   }
 
   if (result.kind === "not_found") {
-    return <StateCard title="Offre introuvable" body="Cette offre n'existe pas ou n'est plus disponible." />;
+    return <StateCard title={fr.publicJobs.notFoundTitle} body={fr.publicJobs.notFoundBody} />;
   }
   if (result.kind === "closed") {
-    return <StateCard title="Offre clôturée" body="Cette offre n'accepte plus de candidatures." />;
+    return <StateCard title={fr.publicJobs.closedTitle} body={fr.publicJobs.closedBody} />;
   }
   if (result.kind === "error") {
-    return <StateCard title="Une erreur est survenue" body="Veuillez réessayer plus tard." />;
+    return <StateCard title={fr.publicJobs.errorTitle} body={fr.publicJobs.errorBody} />;
   }
 
   const job = result.job;
@@ -45,7 +45,7 @@ export default function PublicJobPage({ params }: { params: Promise<{ token: str
         <p className="whitespace-pre-wrap text-sm text-muted-foreground">{job.description}</p>
         {job.requirements ? (
           <div>
-            <h2 className="text-sm font-semibold">{fr.jobPosts.requirements}</h2>
+            <h2 className="text-sm font-semibold">{fr.publicJobs.requirements}</h2>
             <p className="whitespace-pre-wrap text-sm text-muted-foreground">{job.requirements}</p>
           </div>
         ) : null}
@@ -59,7 +59,7 @@ export default function PublicJobPage({ params }: { params: Promise<{ token: str
       </header>
 
       <section className="rounded-lg border bg-background p-6">
-        <h2 className="mb-4 text-lg font-semibold">Postuler</h2>
+        <h2 className="mb-4 text-lg font-semibold">{fr.publicJobs.apply}</h2>
         <ApplicationForm job={job} />
       </section>
     </article>

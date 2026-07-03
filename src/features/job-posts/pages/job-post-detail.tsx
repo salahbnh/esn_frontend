@@ -48,7 +48,7 @@ export function JobPostDetailView({ id }: { id: string }) {
                       <Button asChild variant="outline">
                         <Link href={`/job-posts/${id}/edit`}>
                           <Pencil className="h-4 w-4" />
-                          {fr.jobPosts.save}
+                          {fr.jobPosts.edit}
                         </Link>
                       </Button>
                     ) : null}

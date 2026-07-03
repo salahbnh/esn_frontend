@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { fr } from "@/lib/i18n/fr";
 import { QuestionField } from "@/features/public-jobs/components/question-field";
 import { fetchPublicSkills, submitApplication } from "@/features/public-jobs/public-jobs.api";
 import type { PublicJob } from "@/features/public-jobs/public-jobs.types";
@@ -34,10 +35,8 @@ export function ApplicationForm({ job }: { job: PublicJob }) {
   if (done) {
     return (
       <div className="rounded-lg border bg-muted/30 p-6 text-center">
-        <h2 className="text-lg font-semibold">Candidature envoyée ✓</h2>
-        <p className="mt-1 text-sm text-muted-foreground">
-          Merci — votre candidature a bien été reçue. Le recruteur reviendra vers vous.
-        </p>
+        <h2 className="text-lg font-semibold">{fr.publicJobs.successTitle}</h2>
+        <p className="mt-1 text-sm text-muted-foreground">{fr.publicJobs.successBody}</p>
       </div>
     );
   }
@@ -46,11 +45,11 @@ export function ApplicationForm({ job }: { job: PublicJob }) {
     e.preventDefault();
     setError(null);
     if (!cv) {
-      setError("Un CV (PDF ou DOCX) est requis.");
+      setError(fr.publicJobs.cvRequired);
       return;
     }
     if (!consent) {
-      setError("Vous devez accepter la politique de confidentialité.");
+      setError(fr.publicJobs.consentRequired);
       return;
     }
     const form = new FormData();
@@ -76,21 +75,21 @@ export function ApplicationForm({ job }: { job: PublicJob }) {
     <form onSubmit={onSubmit} className="space-y-5">
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div className="space-y-1.5">
-          <Label htmlFor="fn">Prénom *</Label>
+          <Label htmlFor="fn">{fr.publicJobs.firstName} *</Label>
           <Input id="fn" required value={firstName} onChange={(e) => setFirstName(e.target.value)} />
         </div>
         <div className="space-y-1.5">
-          <Label htmlFor="ln">Nom *</Label>
+          <Label htmlFor="ln">{fr.publicJobs.lastName} *</Label>
           <Input id="ln" required value={lastName} onChange={(e) => setLastName(e.target.value)} />
         </div>
       </div>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div className="space-y-1.5">
-          <Label htmlFor="em">E-mail *</Label>
+          <Label htmlFor="em">{fr.publicJobs.email} *</Label>
           <Input id="em" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} />
         </div>
         <div className="space-y-1.5">
-          <Label htmlFor="ph">Téléphone</Label>
+          <Label htmlFor="ph">{fr.publicJobs.phone}</Label>
           <Input id="ph" value={phone} onChange={(e) => setPhone(e.target.value)} />
         </div>
       </div>
@@ -107,7 +106,7 @@ export function ApplicationForm({ job }: { job: PublicJob }) {
 
       {allSkills.length > 0 ? (
         <div className="space-y-1.5">
-          <Label>Compétences</Label>
+          <Label>{fr.publicJobs.skills}</Label>
           <div className="flex flex-wrap gap-1.5">
             {allSkills.map((name) => {
               const on = skills.includes(name);
@@ -132,7 +131,7 @@ export function ApplicationForm({ job }: { job: PublicJob }) {
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div className="space-y-1.5">
-          <Label htmlFor="cv">CV (PDF ou DOCX) *</Label>
+          <Label htmlFor="cv">{fr.publicJobs.cv} *</Label>
           <input
             id="cv"
             type="file"
@@ -142,7 +141,7 @@ export function ApplicationForm({ job }: { job: PublicJob }) {
           />
         </div>
         <div className="space-y-1.5">
-          <Label htmlFor="cl">Lettre de motivation (optionnel)</Label>
+          <Label htmlFor="cl">{fr.publicJobs.coverLetter}</Label>
           <input
             id="cl"
             type="file"
@@ -172,16 +171,13 @@ export function ApplicationForm({ job }: { job: PublicJob }) {
           onChange={(e) => setConsent(e.target.checked)}
           className="mt-0.5 h-4 w-4 rounded border-input accent-primary"
         />
-        <span>
-          J&apos;accepte que mes données soient traitées dans le cadre de ce recrutement
-          (politique de confidentialité). *
-        </span>
+        <span>{fr.publicJobs.consent} *</span>
       </label>
 
       {error ? <p className="text-sm text-destructive">{error}</p> : null}
 
       <Button type="submit" disabled={submitting}>
-        {submitting ? "Envoi…" : "Envoyer ma candidature"}
+        {submitting ? fr.publicJobs.submitting : fr.publicJobs.submit}
       </Button>
     </form>
   );
