@@ -1,5 +1,6 @@
 "use client";
 
+import { UserCircle as PageIcon } from "lucide-react";
 import { PageHeader } from "@/components/common/page-header";
 import { StatusBadge } from "@/components/common/status-badge";
 import {
@@ -33,7 +34,7 @@ export function MeProfileView() {
     >
       {(consultant) => (
         <section className="space-y-6">
-          <PageHeader
+          <PageHeader icon={PageIcon} accent="me"
             title={fr.consultants.myProfileTitle}
             subtitle={fr.consultants.myProfileSubtitle}
             actions={

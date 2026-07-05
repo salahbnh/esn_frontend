@@ -1,5 +1,6 @@
 "use client";
 
+import { Gauge as PageIcon } from "lucide-react";
 import { useState } from "react";
 
 import { EmptyState } from "@/components/common/async-states";
@@ -27,7 +28,7 @@ export function OccupancyView() {
 
   return (
     <section className="space-y-6">
-      <PageHeader
+      <PageHeader icon={PageIcon} accent="staffing"
         title={fr.staffing.occupancyTitle}
         subtitle={fr.staffing.occupancySubtitle}
       />

@@ -28,6 +28,7 @@ export function toCreateContractBody(v: ContractCreateForm): CreateContractBody 
   return {
     consultantId: v.consultantId,
     templateId: blankToUndef(v.templateId),
+    managerId: v.managerId,
     type: v.type.trim(),
     startDate: blankToUndef(v.startDate),
     endDate: blankToUndef(v.endDate),
@@ -89,6 +90,10 @@ export function contractErrorMessage(err: unknown): string {
     case "NOT_IN_VALIDATION":
     case "NO_PENDING_STEP":
       return fr.contracts.errNotInValidation;
+    case "NOT_DESIGNATED_MANAGER":
+      return fr.contracts.errNotDesignatedManager;
+    case "INVALID_MANAGER":
+      return fr.contracts.errInvalidManager;
     default:
       return fr.contracts.saveError;
   }

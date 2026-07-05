@@ -1,5 +1,6 @@
 "use client";
 
+import { ScrollText as PageIcon } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { FileText } from "lucide-react";
@@ -57,7 +58,7 @@ export function ContractsListView() {
 
   return (
     <section className="space-y-6">
-      <PageHeader
+      <PageHeader icon={PageIcon} accent="contracts"
         title={fr.contracts.title}
         subtitle={fr.contracts.subtitle}
         actions={

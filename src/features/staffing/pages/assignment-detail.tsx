@@ -1,8 +1,9 @@
 "use client";
 
+import { Award, Briefcase, CalendarDays, CalendarOff, Percent, User, UsersRound } from "lucide-react";
+import { InfoField, InfoGrid } from "@/components/common/info-grid";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import type { ReactNode } from "react";
 
 import { PageHeader } from "@/components/common/page-header";
 import { StatusBadge } from "@/components/common/status-badge";
@@ -23,7 +24,7 @@ export function AssignmentDetailView({ id }: { id: string }) {
     <QueryBoundary query={query}>
       {(a) => (
         <section className="space-y-6">
-          <PageHeader
+          <PageHeader icon={UsersRound} accent="staffing"
             title={a.mission.project}
             actions={
               <>
@@ -33,34 +34,34 @@ export function AssignmentDetailView({ id }: { id: string }) {
             }
           />
 
-          <dl className="grid grid-cols-1 gap-x-8 gap-y-4 sm:grid-cols-2">
-            <Field label={fr.staffing.mission}>
+          <InfoGrid>
+            <InfoField label={fr.staffing.mission} icon={Briefcase}>
               <Link
                 href={`/missions/${a.missionId}`}
                 className="text-primary hover:underline"
               >
                 {a.mission.project}
               </Link>
-            </Field>
-            <Field label={fr.staffing.consultant}>
+            </InfoField>
+            <InfoField label={fr.staffing.consultant} icon={User}>
               <Link
                 href={`/consultants/${a.consultantId}`}
                 className="text-primary hover:underline"
               >
                 {a.consultant.user.firstName} {a.consultant.user.lastName}
               </Link>
-            </Field>
-            <Field label={fr.staffing.roleOnMission}>
+            </InfoField>
+            <InfoField label={fr.staffing.roleOnMission} icon={Award}>
               {a.roleOnMission ?? "—"}
-            </Field>
-            <Field label={fr.staffing.allocation}>
+            </InfoField>
+            <InfoField label={fr.staffing.allocation} icon={Percent}>
               <span className="tabular-nums">{a.allocationPct} %</span>
-            </Field>
-            <Field label={fr.staffing.startDate}>
+            </InfoField>
+            <InfoField label={fr.staffing.startDate} icon={CalendarDays}>
               {formatDate(a.startDate)}
-            </Field>
-            <Field label={fr.staffing.endDate}>{formatDate(a.endDate)}</Field>
-          </dl>
+            </InfoField>
+            <InfoField label={fr.staffing.endDate} icon={CalendarOff}>{formatDate(a.endDate)}</InfoField>
+          </InfoGrid>
 
           {canManage ? (
             <AssignmentStatusControl assignmentId={id} status={a.status} />
@@ -71,13 +72,3 @@ export function AssignmentDetailView({ id }: { id: string }) {
   );
 }
 
-function Field({ label, children }: { label: string; children: ReactNode }) {
-  return (
-    <div>
-      <dt className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-        {label}
-      </dt>
-      <dd className="mt-1 text-sm">{children}</dd>
-    </div>
-  );
-}

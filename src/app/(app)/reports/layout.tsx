@@ -1,3 +1,4 @@
+import { ChartColumn as PageIcon } from "lucide-react";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import type { ReactNode } from "react";
@@ -38,7 +39,7 @@ export default async function ReportsLayout({
 
   return (
     <section className="space-y-6">
-      <PageHeader title={fr.reports.title} subtitle={fr.reports.subtitle} />
+      <PageHeader icon={PageIcon} accent="reports" title={fr.reports.title} subtitle={fr.reports.subtitle} />
       <ReportsTabs tabs={tabs} />
       <div>{children}</div>
     </section>

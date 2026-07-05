@@ -1,5 +1,6 @@
 "use client";
 
+import { Briefcase as PageIcon } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useEffect, useMemo, useState } from "react";
 
@@ -57,7 +58,7 @@ export function MissionsListView() {
 
   return (
     <section className="space-y-6">
-      <PageHeader
+      <PageHeader icon={PageIcon} accent="missions"
         title={fr.missions.title}
         subtitle={fr.missions.subtitle}
         actions={canManage ? <MissionFormDialog /> : undefined}

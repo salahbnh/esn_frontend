@@ -1,7 +1,8 @@
 "use client";
 
+import { Compass, Mail, Phone, Tags, Target, Users } from "lucide-react";
+import { InfoField, InfoGrid } from "@/components/common/info-grid";
 import { useSession } from "next-auth/react";
-import type { ReactNode } from "react";
 
 import { PageHeader } from "@/components/common/page-header";
 import { StatusBadge } from "@/components/common/status-badge";
@@ -23,6 +24,7 @@ import { canDownloadFrom } from "@/features/documents/documents.matrix";
 import { EvaluationList } from "@/features/recruitment/components/evaluation-list";
 import { InteractionTimeline } from "@/features/recruitment/components/interaction-timeline";
 import { ProposalList } from "@/features/recruitment/components/proposal-list";
+import { PipelineStepper } from "@/features/recruitment/components/pipeline-stepper";
 import { StatusTransition } from "@/features/recruitment/components/status-transition";
 import { QueryBoundary } from "@/features/recruitment/query-boundary";
 import { useCandidate } from "@/features/recruitment/use-recruitment";
@@ -45,7 +47,7 @@ export function CandidateDetailView({ id }: { id: string }) {
     <QueryBoundary query={query}>
       {(candidate) => (
         <section className="space-y-6">
-          <PageHeader
+          <PageHeader icon={Users} accent="candidates"
             title={`${candidate.firstName} ${candidate.lastName}`}
             subtitle={candidate.targetPosition ?? undefined}
             actions={
@@ -81,6 +83,7 @@ export function CandidateDetailView({ id }: { id: string }) {
             </TabsList>
 
             <TabsContent value="info" className="space-y-6">
+              <PipelineStepper status={candidate.status} />
               <CandidateInfo candidate={candidate} />
               {isRh ? (
                 <StatusTransition
@@ -125,14 +128,14 @@ export function CandidateDetailView({ id }: { id: string }) {
 
 function CandidateInfo({ candidate }: { candidate: CandidateDetail }) {
   return (
-    <dl className="grid grid-cols-1 gap-x-8 gap-y-4 sm:grid-cols-2">
-      <Field label={fr.candidates.email}>{candidate.email}</Field>
-      <Field label={fr.candidates.phone}>{candidate.phone ?? "—"}</Field>
-      <Field label={fr.candidates.source}>{candidate.source ?? "—"}</Field>
-      <Field label={fr.candidates.targetPosition}>
+    <InfoGrid>
+      <InfoField label={fr.candidates.email} icon={Mail}>{candidate.email}</InfoField>
+      <InfoField label={fr.candidates.phone} icon={Phone}>{candidate.phone ?? "—"}</InfoField>
+      <InfoField label={fr.candidates.source} icon={Compass}>{candidate.source ?? "—"}</InfoField>
+      <InfoField label={fr.candidates.targetPosition} icon={Target}>
         {candidate.targetPosition ?? "—"}
-      </Field>
-      <Field label={fr.candidates.skills}>
+      </InfoField>
+      <InfoField label={fr.candidates.skills} icon={Tags}>
         {candidate.skills.length > 0 ? (
           <span className="flex flex-wrap gap-1.5">
             {candidate.skills.map((s) => (
@@ -144,29 +147,11 @@ function CandidateInfo({ candidate }: { candidate: CandidateDetail }) {
         ) : (
           "—"
         )}
-      </Field>
-      <Field label={fr.candidates.notes} full>
+      </InfoField>
+      <InfoField label={fr.candidates.notes} full>
         <span className="whitespace-pre-wrap">{candidate.notes ?? "—"}</span>
-      </Field>
-    </dl>
+      </InfoField>
+    </InfoGrid>
   );
 }
 
-function Field({
-  label,
-  children,
-  full,
-}: {
-  label: string;
-  children: ReactNode;
-  full?: boolean;
-}) {
-  return (
-    <div className={full ? "sm:col-span-2" : undefined}>
-      <dt className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-        {label}
-      </dt>
-      <dd className="mt-1 text-sm">{children}</dd>
-    </div>
-  );
-}

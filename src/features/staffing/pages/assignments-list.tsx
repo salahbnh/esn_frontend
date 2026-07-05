@@ -1,5 +1,6 @@
 "use client";
 
+import { UsersRound as PageIcon } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
@@ -55,7 +56,7 @@ export function AssignmentsListView({
 
   return (
     <section className="space-y-6">
-      <PageHeader
+      <PageHeader icon={PageIcon} accent="staffing"
         title={fr.staffing.title}
         subtitle={fr.staffing.subtitle}
         actions={

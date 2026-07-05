@@ -1,5 +1,7 @@
 "use client";
 
+import { ArrowRightLeft } from "lucide-react";
+import { SectionCard } from "@/components/common/section-card";
 import { Info } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -64,8 +66,8 @@ export function MissionStatusControl({
   }
 
   return (
-    <div className="space-y-3 rounded-lg border p-4">
-      <h3 className="text-sm font-semibold">{fr.missions.transitionStatus}</h3>
+    <SectionCard title={fr.missions.transitionStatus} icon={ArrowRightLeft} accent="missions">
+      <div className="space-y-3">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
         <div className="space-y-1.5 sm:w-56">
           <Label htmlFor="mission-status-target">
@@ -110,6 +112,7 @@ export function MissionStatusControl({
         <Info className="mt-0.5 h-3.5 w-3.5 shrink-0" />
         {fr.missions.transitionHint}
       </p>
-    </div>
+      </div>
+    </SectionCard>
   );
 }

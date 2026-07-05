@@ -1,5 +1,7 @@
 "use client";
 
+import { ArrowRightLeft } from "lucide-react";
+import { SectionCard } from "@/components/common/section-card";
 import { Info } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -79,8 +81,8 @@ export function AssignmentStatusControl({
   }
 
   return (
-    <div className="space-y-3 rounded-lg border p-4">
-      <h3 className="text-sm font-semibold">{fr.staffing.transitionStatus}</h3>
+    <SectionCard title={fr.staffing.transitionStatus} icon={ArrowRightLeft} accent="staffing">
+      <div className="space-y-3">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
         <div className="space-y-1.5 sm:w-56">
           <Label htmlFor="assignment-status-target">
@@ -150,6 +152,7 @@ export function AssignmentStatusControl({
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </div>
+      </div>
+    </SectionCard>
   );
 }

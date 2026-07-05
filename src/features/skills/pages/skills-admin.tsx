@@ -1,5 +1,6 @@
 "use client";
 
+import { Tag as PageIcon } from "lucide-react";
 import { useState } from "react";
 
 import { EmptyState } from "@/components/common/async-states";
@@ -27,7 +28,7 @@ export function SkillsAdminView() {
 
   return (
     <section className="space-y-6">
-      <PageHeader
+      <PageHeader icon={PageIcon} accent="skills"
         title={fr.skills.title}
         subtitle={fr.skills.subtitle}
         actions={<SkillFormDialog />}

@@ -1,8 +1,11 @@
 "use client";
 
+import { InfoField, InfoGrid } from "@/components/common/info-grid";
+import { Award, CalendarOff, MapPin, Megaphone, Tags, Timer } from "lucide-react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
-import { Copy, Pencil } from "lucide-react";
+import { Copy, Link as LinkIcon, Pencil } from "lucide-react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 import { PageHeader } from "@/components/common/page-header";
@@ -36,7 +39,7 @@ export function JobPostDetailView({ id }: { id: string }) {
     <QueryBoundary query={query}>
       {(post) => (
         <section className="space-y-6">
-          <PageHeader
+          <PageHeader icon={Megaphone} accent="jobPosts"
             title={post.title}
             subtitle={fr.jobPosts.employmentTypes[post.employmentType]}
             actions={
@@ -122,10 +125,22 @@ export function JobPostDetailView({ id }: { id: string }) {
 }
 
 function PublicLink({ token }: { token: string }) {
-  const url = typeof window !== "undefined" ? `${window.location.origin}/jobs/${token}` : `/jobs/${token}`;
+  // Resolved in an effect — `window.location` in render would differ between the
+  // server and client passes and trip a hydration mismatch.
+  const [url, setUrl] = useState(`/jobs/${token}`);
+  useEffect(() => {
+    setUrl(`${window.location.origin}/jobs/${token}`);
+  }, [token]);
+
   return (
-    <div className="flex items-center gap-2 rounded-lg border bg-muted/40 p-3">
-      <span className="text-xs font-semibold uppercase text-muted-foreground">{fr.jobPosts.publicLink}</span>
+    <div className="flex items-center gap-2 rounded-lg border border-orange-500/25 bg-orange-500/5 p-3 dark:border-orange-400/20 dark:bg-orange-400/5">
+      <LinkIcon
+        aria-hidden="true"
+        className="h-4 w-4 shrink-0 text-orange-600 dark:text-orange-300"
+      />
+      <span className="text-xs font-semibold uppercase text-muted-foreground">
+        {fr.jobPosts.publicLink}
+      </span>
       <code className="flex-1 truncate text-sm">{url}</code>
       <Button
         size="sm"
@@ -144,37 +159,29 @@ function PublicLink({ token }: { token: string }) {
 
 function Overview({ post }: { post: JobPostDetail }) {
   return (
-    <dl className="grid grid-cols-1 gap-x-8 gap-y-4 sm:grid-cols-2">
-      <Field label={fr.jobPosts.description} full>
+    <InfoGrid>
+      <InfoField label={fr.jobPosts.description} full>
         <p className="whitespace-pre-wrap">{post.description}</p>
-      </Field>
+      </InfoField>
       {post.requirements ? (
-        <Field label={fr.jobPosts.requirements} full>
+        <InfoField label={fr.jobPosts.requirements} full>
           <p className="whitespace-pre-wrap">{post.requirements}</p>
-        </Field>
+        </InfoField>
       ) : null}
-      <Field label={fr.jobPosts.location}>{post.location ?? "—"}</Field>
-      <Field label={fr.jobPosts.seniorityLevel}>
+      <InfoField label={fr.jobPosts.location} icon={MapPin}>{post.location ?? "—"}</InfoField>
+      <InfoField label={fr.jobPosts.seniorityLevel} icon={Award}>
         {post.seniorityLevel ? fr.jobPosts.seniorityLevels[post.seniorityLevel] : "—"}
-      </Field>
-      <Field label={fr.jobPosts.minYearsExperience}>{post.minYearsExperience ?? "—"}</Field>
-      <Field label={fr.jobPosts.expiresAt}>{formatDate(post.expiresAt)}</Field>
-      <Field label={fr.jobPosts.requiredSkills} full>
+      </InfoField>
+      <InfoField label={fr.jobPosts.minYearsExperience} icon={Timer}>{post.minYearsExperience ?? "—"}</InfoField>
+      <InfoField label={fr.jobPosts.expiresAt} icon={CalendarOff}>{formatDate(post.expiresAt)}</InfoField>
+      <InfoField label={fr.jobPosts.requiredSkills} icon={Tags} full>
         <div className="flex flex-wrap gap-1.5">
           {post.requiredSkills.length === 0 ? "—" : post.requiredSkills.map((s) => (
             <Badge key={s.id} variant="secondary">{s.name}</Badge>
           ))}
         </div>
-      </Field>
-    </dl>
+      </InfoField>
+    </InfoGrid>
   );
 }
 
-function Field({ label, children, full }: { label: string; children: React.ReactNode; full?: boolean }) {
-  return (
-    <div className={full ? "sm:col-span-2" : undefined}>
-      <dt className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{label}</dt>
-      <dd className="mt-1 text-sm">{children}</dd>
-    </div>
-  );
-}

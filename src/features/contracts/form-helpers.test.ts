@@ -16,6 +16,7 @@ describe("toCreateContractBody", () => {
       toCreateContractBody({
         consultantId: "c1",
         templateId: "",
+        managerId: "m1",
         type: " CDI ",
         startDate: "2026-09-01",
         endDate: "",
@@ -23,6 +24,7 @@ describe("toCreateContractBody", () => {
     ).toEqual({
       consultantId: "c1",
       templateId: undefined,
+      managerId: "m1",
       type: "CDI",
       startDate: "2026-09-01",
       endDate: undefined,
@@ -33,6 +35,7 @@ describe("toCreateContractBody", () => {
     const body = toCreateContractBody({
       consultantId: "c1",
       templateId: "tpl1",
+      managerId: "m1",
       type: "CDI",
       startDate: "",
       endDate: "",

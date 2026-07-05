@@ -27,6 +27,7 @@ import {
 } from "@/components/ui/select";
 import { fr } from "@/lib/i18n/fr";
 import { useConsultants } from "@/features/consultants/use-consultants";
+import { useManagers } from "@/features/users/use-users";
 import {
   contractErrorMessage,
   toCreateContractBody,
@@ -45,6 +46,7 @@ const NONE = "NONE";
 const BLANK: ContractCreateForm = {
   consultantId: "",
   templateId: "",
+  managerId: "",
   type: "",
   startDate: "",
   endDate: "",
@@ -57,6 +59,8 @@ export function ContractCreateDialog() {
   const createMutation = useCreateContract();
   const consultants = useConsultants({ pageSize: 100 }).data?.data ?? [];
   const templates = useTemplates().data?.data ?? [];
+  // Designated approver of the MANAGER validation step (active managers only).
+  const managers = (useManagers().data?.data ?? []).filter((m) => m.isActive);
 
   const {
     register,
@@ -130,6 +134,41 @@ export function ContractCreateDialog() {
             {errors.consultantId ? (
               <p className="text-xs text-destructive">
                 {errors.consultantId.message}
+              </p>
+            ) : null}
+          </div>
+
+          <div className="space-y-1.5">
+            <Label htmlFor="contract-manager">
+              {fr.contracts.designatedManager} *
+            </Label>
+            <Controller
+              control={control}
+              name="managerId"
+              render={({ field }) => (
+                <Select
+                  value={field.value || undefined}
+                  onValueChange={field.onChange}
+                >
+                  <SelectTrigger id="contract-manager">
+                    <SelectValue placeholder={fr.contracts.designatedManagerPlaceholder} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {managers.map((m) => (
+                      <SelectItem key={m.id} value={m.id}>
+                        {m.firstName} {m.lastName}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              )}
+            />
+            <p className="text-xs text-muted-foreground">
+              {fr.contracts.designatedManagerHint}
+            </p>
+            {errors.managerId ? (
+              <p className="text-xs text-destructive">
+                {errors.managerId.message}
               </p>
             ) : null}
           </div>

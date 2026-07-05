@@ -1,9 +1,10 @@
 "use client";
 
-import { Info } from "lucide-react";
+import { ArrowRightLeft, Info } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
+import { SectionCard } from "@/components/common/section-card";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import {
@@ -61,10 +62,12 @@ export function ConsultantStatusControl({
   }
 
   return (
-    <div className="space-y-3 rounded-lg border p-4">
-      <h3 className="text-sm font-semibold">
-        {fr.consultants.transitionStatus}
-      </h3>
+    <SectionCard
+      title={fr.consultants.transitionStatus}
+      icon={ArrowRightLeft}
+      accent="consultants"
+    >
+      <div className="space-y-3">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
         <div className="space-y-1.5 sm:w-56">
           <Label htmlFor="consultant-status-target">
@@ -109,6 +112,7 @@ export function ConsultantStatusControl({
         <Info className="mt-0.5 h-3.5 w-3.5 shrink-0" />
         {fr.consultants.transitionHint}
       </p>
-    </div>
+      </div>
+    </SectionCard>
   );
 }

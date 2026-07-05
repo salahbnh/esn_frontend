@@ -1,6 +1,7 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { Award, Banknote, Briefcase, CalendarCheck, CalendarDays, Mail, Tags } from "lucide-react";
+import { InfoField, InfoGrid } from "@/components/common/info-grid";
 
 import { Badge } from "@/components/ui/badge";
 import { formatDate, formatTJM } from "@/lib/format";
@@ -14,22 +15,22 @@ export function ConsultantProfile({
   consultant: ConsultantDetail;
 }) {
   return (
-    <dl className="grid grid-cols-1 gap-x-8 gap-y-4 sm:grid-cols-2">
-      <Field label={fr.consultants.email}>{consultant.user.email}</Field>
-      <Field label={fr.consultants.assignmentCount}>
+    <InfoGrid>
+      <InfoField label={fr.consultants.email} icon={Mail}>{consultant.user.email}</InfoField>
+      <InfoField label={fr.consultants.assignmentCount} icon={Briefcase}>
         <span className="tabular-nums">{consultant._assignmentCount}</span>
-      </Field>
-      <Field label={fr.consultants.tjm}>{formatTJM(consultant.tjm)}</Field>
-      <Field label={fr.consultants.seniority}>
+      </InfoField>
+      <InfoField label={fr.consultants.tjm} icon={Banknote}>{formatTJM(consultant.tjm)}</InfoField>
+      <InfoField label={fr.consultants.seniority} icon={Award}>
         {consultant.seniority ?? "—"}
-      </Field>
-      <Field label={fr.consultants.hireDate}>
+      </InfoField>
+      <InfoField label={fr.consultants.hireDate} icon={CalendarDays}>
         {formatDate(consultant.hireDate)}
-      </Field>
-      <Field label={fr.consultants.availabilityDate}>
+      </InfoField>
+      <InfoField label={fr.consultants.availabilityDate} icon={CalendarCheck}>
         {formatDate(consultant.availabilityDate)}
-      </Field>
-      <Field label={fr.consultants.skills}>
+      </InfoField>
+      <InfoField label={fr.consultants.skills} icon={Tags}>
         {consultant.skills.length > 0 ? (
           <span className="flex flex-wrap gap-1.5">
             {consultant.skills.map((s) => (
@@ -41,29 +42,11 @@ export function ConsultantProfile({
         ) : (
           "—"
         )}
-      </Field>
-      <Field label={fr.consultants.bio} full>
+      </InfoField>
+      <InfoField label={fr.consultants.bio} full>
         <span className="whitespace-pre-wrap">{consultant.bio ?? "—"}</span>
-      </Field>
-    </dl>
+      </InfoField>
+    </InfoGrid>
   );
 }
 
-function Field({
-  label,
-  children,
-  full,
-}: {
-  label: string;
-  children: ReactNode;
-  full?: boolean;
-}) {
-  return (
-    <div className={full ? "sm:col-span-2" : undefined}>
-      <dt className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-        {label}
-      </dt>
-      <dd className="mt-1 text-sm">{children}</dd>
-    </div>
-  );
-}

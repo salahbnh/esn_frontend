@@ -1,8 +1,9 @@
 "use client";
 
+import { Banknote, Briefcase, Building2, CalendarDays, CalendarOff, Tags, User, Users } from "lucide-react";
+import { InfoField, InfoGrid } from "@/components/common/info-grid";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import type { ReactNode } from "react";
 
 import { PageHeader } from "@/components/common/page-header";
 import { StatusBadge } from "@/components/common/status-badge";
@@ -40,7 +41,7 @@ export function MissionDetailView({ id }: { id: string }) {
     <QueryBoundary query={query}>
       {(mission) => (
         <section className="space-y-6">
-          <PageHeader
+          <PageHeader icon={Briefcase} accent="missions"
             title={mission.project}
             actions={
               <>
@@ -105,9 +106,9 @@ function MissionInfo({
   isConsultant: boolean;
 }) {
   return (
-    <dl className="grid grid-cols-1 gap-x-8 gap-y-4 sm:grid-cols-2">
-      <Field label={fr.missions.role}>{mission.role}</Field>
-      <Field label={fr.missions.client}>
+    <InfoGrid>
+      <InfoField label={fr.missions.role} icon={User}>{mission.role}</InfoField>
+      <InfoField label={fr.missions.client} icon={Building2}>
         {isConsultant ? (
           mission.client.name
         ) : (
@@ -118,13 +119,13 @@ function MissionInfo({
             {mission.client.name}
           </Link>
         )}
-      </Field>
-      <Field label={fr.missions.tjm}>{formatTJM(mission.tjm)}</Field>
-      <Field label={fr.missions.startDate}>
+      </InfoField>
+      <InfoField label={fr.missions.tjm} icon={Banknote}>{formatTJM(mission.tjm)}</InfoField>
+      <InfoField label={fr.missions.startDate} icon={CalendarDays}>
         {formatDate(mission.startDate)}
-      </Field>
-      <Field label={fr.missions.endDate}>{formatDate(mission.endDate)}</Field>
-      <Field label={fr.missions.assignmentCount}>
+      </InfoField>
+      <InfoField label={fr.missions.endDate} icon={CalendarOff}>{formatDate(mission.endDate)}</InfoField>
+      <InfoField label={fr.missions.assignmentCount} icon={Users}>
         {isConsultant ? (
           <span className="tabular-nums">{mission._activeAssignmentCount}</span>
         ) : (
@@ -135,8 +136,8 @@ function MissionInfo({
             {mission._activeAssignmentCount} ›
           </Link>
         )}
-      </Field>
-      <Field label={fr.missions.requiredSkills}>
+      </InfoField>
+      <InfoField label={fr.missions.requiredSkills} icon={Tags}>
         {mission.requiredSkills.length > 0 ? (
           <span className="flex flex-wrap gap-1.5">
             {mission.requiredSkills.map((s) => (
@@ -148,31 +149,13 @@ function MissionInfo({
         ) : (
           "—"
         )}
-      </Field>
-      <Field label={fr.missions.description} full>
+      </InfoField>
+      <InfoField label={fr.missions.description} full>
         <span className="whitespace-pre-wrap">
           {mission.description ?? "—"}
         </span>
-      </Field>
-    </dl>
+      </InfoField>
+    </InfoGrid>
   );
 }
 
-function Field({
-  label,
-  children,
-  full,
-}: {
-  label: string;
-  children: ReactNode;
-  full?: boolean;
-}) {
-  return (
-    <div className={full ? "sm:col-span-2" : undefined}>
-      <dt className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-        {label}
-      </dt>
-      <dd className="mt-1 text-sm">{children}</dd>
-    </div>
-  );
-}

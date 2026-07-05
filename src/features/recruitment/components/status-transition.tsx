@@ -1,5 +1,7 @@
 "use client";
 
+import { ArrowRightLeft } from "lucide-react";
+import { SectionCard } from "@/components/common/section-card";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -59,8 +61,8 @@ export function StatusTransition({
   }
 
   return (
-    <div className="space-y-3 rounded-lg border p-4">
-      <h3 className="text-sm font-semibold">{fr.candidates.transitionStatus}</h3>
+    <SectionCard title={fr.candidates.transitionStatus} icon={ArrowRightLeft} accent="candidates">
+      <div className="space-y-3">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
         <div className="space-y-1.5 sm:w-56">
           <Label htmlFor="transition-target">
@@ -101,6 +103,7 @@ export function StatusTransition({
           onChange={(e) => setComment(e.target.value)}
         />
       </div>
-    </div>
+      </div>
+    </SectionCard>
   );
 }

@@ -22,6 +22,7 @@ export const fr = {
     documents: "Documents",
     skills: "Compétences",
     jobPosts: "Offres d'emploi",
+    users: "Utilisateurs",
     reports: "Rapports",
     myProfile: "Mon profil",
     myMissions: "Mes missions",
@@ -311,6 +312,7 @@ export const fr = {
     transitionSubmit: "Mettre à jour",
     transitionPlaceholder: "Choisir un statut…",
     transitionSuccess: "Statut mis à jour",
+    pipelineRejected: "Candidature rejetée — le candidat est sorti du pipeline.",
     transitionError: "Échec du changement de statut.",
     noTransitionsAvailable: "Aucune transition disponible pour ce statut.",
     // feedback
@@ -562,9 +564,20 @@ export const fr = {
       APPROVED: "Approuvé",
       REJECTED: "Rejeté",
     },
+    validationNotStarted:
+      "Circuit non démarré — soumettez le contrat à validation pour lancer les étapes RH → Manager → Direction.",
     approve: "Approuver",
     reject: "Rejeter",
     validateComment: "Commentaire (optionnel)",
+    yourDecision: "Votre décision",
+    designatedManager: "Manager responsable",
+    designatedManagerPlaceholder: "Choisir le manager…",
+    designatedManagerHint:
+      "Seul ce manager pourra approuver l'étape Manager du circuit de validation.",
+    awaitingDesignatedManager: "En attente de",
+    errNotDesignatedManager:
+      "Ce contrat attend l'approbation de son manager désigné.",
+    errInvalidManager: "Le manager désigné doit être un manager actif.",
     validateSuccess: "Décision enregistrée",
     // workflow actions
     submit: "Soumettre à validation",
@@ -856,6 +869,41 @@ export const fr = {
     no: "Non",
     email: "E-mail",
     phone: "Téléphone",
+  },
+  // Users admin (DIRECTION)
+  users: {
+    title: "Utilisateurs",
+    subtitle: "Comptes internes — RH, managers et direction",
+    new: "Nouvel utilisateur",
+    createTitle: "Créer un compte interne",
+    createHint:
+      "L'adresse e-mail @esn.local est générée automatiquement et une invitation de définition de mot de passe est envoyée.",
+    noResults: "Aucun utilisateur",
+    searchPlaceholder: "Rechercher un utilisateur…",
+    allRoles: "Tous les rôles",
+    name: "Nom",
+    firstName: "Prénom",
+    lastName: "Nom",
+    email: "E-mail",
+    role: "Rôle",
+    userStatus: "Statut",
+    active: "Actif",
+    inactive: "Désactivé",
+    createdAt: "Créé le",
+    create: "Créer le compte",
+    cancel: "Annuler",
+    deactivate: "Désactiver",
+    activate: "Réactiver",
+    deactivateConfirm:
+      "Désactiver ce compte ? L'utilisateur ne pourra plus se connecter (réversible).",
+    resendInvite: "Renvoyer l'invitation",
+    resendInviteSuccess: "Invitation envoyée",
+    createSuccess: "Compte créé — invitation envoyée à",
+    statusUpdated: "Statut du compte mis à jour",
+    consultantNote:
+      "Les comptes consultants sont créés via la conversion candidat → consultant.",
+    saveError: "Échec de l'enregistrement. Veuillez réessayer.",
+    errSelfDeactivate: "Vous ne pouvez pas désactiver votre propre compte.",
   },
   // Public careers portal (unauthenticated)
   publicJobs: {

@@ -1,5 +1,6 @@
 "use client";
 
+import { Briefcase as PageIcon } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -28,7 +29,7 @@ export function MeMissionsView() {
 
   return (
     <section className="space-y-6">
-      <PageHeader
+      <PageHeader icon={PageIcon} accent="me"
         title={fr.consultants.myMissionsTitle}
         subtitle={fr.consultants.myMissionsSubtitle}
       />

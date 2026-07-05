@@ -6,6 +6,7 @@
  * missions always; pipeline + hr for RH/DIRECTION (omitted for MANAGER).
  */
 
+import { LayoutDashboard as PageIcon } from "lucide-react";
 import { PageHeader } from "@/components/common/page-header";
 import { fr } from "@/lib/i18n/fr";
 import { OccupancyBlock } from "@/features/reporting/charts/occupancy-block";
@@ -28,7 +29,7 @@ export function StaffDashboard({ name }: { name?: string | null }) {
 
   return (
     <section className="space-y-6">
-      <PageHeader
+      <PageHeader icon={PageIcon} accent="dashboard"
         title={`${fr.dashboard.greeting}${name ? `, ${name}` : ""}`}
         subtitle={fr.dashboard.subtitle}
       />

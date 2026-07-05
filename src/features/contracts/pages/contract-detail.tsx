@@ -2,8 +2,16 @@
 
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import type { ReactNode } from "react";
+import {
+  CalendarDays,
+  CalendarOff,
+  FileStack,
+  ScrollText,
+  Tags,
+  User,
+} from "lucide-react";
 
+import { InfoField, InfoGrid } from "@/components/common/info-grid";
 import { PageHeader } from "@/components/common/page-header";
 import { StatusBadge } from "@/components/common/status-badge";
 import {
@@ -51,6 +59,8 @@ export function ContractDetailView({ id }: { id: string }) {
         return (
           <section className="space-y-6">
             <PageHeader
+              icon={ScrollText}
+              accent="contracts"
               title={fullName}
               subtitle={contract.type}
               actions={
@@ -92,7 +102,14 @@ export function ContractDetailView({ id }: { id: string }) {
               <TabsContent value="info" className="space-y-6">
                 <ContractInfo contract={contract} />
                 <SigningStatus contract={contract} />
-                <ValidationTimeline validations={contract.validations} />
+                <ValidationTimeline
+                  validations={contract.validations}
+                  managerName={
+                    contract.manager
+                      ? `${contract.manager.firstName} ${contract.manager.lastName}`
+                      : null
+                  }
+                />
                 <ValidateControl contract={contract} />
               </TabsContent>
 
@@ -126,45 +143,30 @@ export function ContractDetailView({ id }: { id: string }) {
 function ContractInfo({ contract }: { contract: ContractDetail }) {
   const consultant = contract.consultant;
   return (
-    <dl className="grid grid-cols-1 gap-x-8 gap-y-4 sm:grid-cols-2">
-      <Field label={fr.contracts.consultant}>
+    <InfoGrid>
+      <InfoField label={fr.contracts.consultant} icon={User}>
         <Link
           href={`/consultants/${contract.consultantId}`}
           className="text-primary hover:underline"
         >
           {consultant.user.firstName} {consultant.user.lastName}
         </Link>
-      </Field>
-      <Field label={fr.contracts.type}>{contract.type}</Field>
-      <Field label={fr.contracts.template}>
+      </InfoField>
+      <InfoField label={fr.contracts.type} icon={Tags}>
+        {contract.type}
+      </InfoField>
+      <InfoField label={fr.contracts.template} icon={FileStack}>
         {contract.template?.name ?? fr.contracts.noTemplate}
-      </Field>
-      <Field label={fr.contracts.status}>
+      </InfoField>
+      <InfoField label={fr.contracts.status}>
         <StatusBadge kind="contract" value={contract.status} />
-      </Field>
-      <Field label={fr.contracts.startDate}>
+      </InfoField>
+      <InfoField label={fr.contracts.startDate} icon={CalendarDays}>
         {formatDate(contract.startDate)}
-      </Field>
-      <Field label={fr.contracts.endDate}>{formatDate(contract.endDate)}</Field>
-    </dl>
-  );
-}
-
-function Field({
-  label,
-  children,
-  full,
-}: {
-  label: string;
-  children: ReactNode;
-  full?: boolean;
-}) {
-  return (
-    <div className={full ? "sm:col-span-2" : undefined}>
-      <dt className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-        {label}
-      </dt>
-      <dd className="mt-1 text-sm">{children}</dd>
-    </div>
+      </InfoField>
+      <InfoField label={fr.contracts.endDate} icon={CalendarOff}>
+        {formatDate(contract.endDate)}
+      </InfoField>
+    </InfoGrid>
   );
 }

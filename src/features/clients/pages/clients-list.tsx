@@ -1,5 +1,6 @@
 "use client";
 
+import { Building2 as PageIcon } from "lucide-react";
 import { Search } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 
@@ -37,7 +38,7 @@ export function ClientsListView() {
 
   return (
     <section className="space-y-6">
-      <PageHeader
+      <PageHeader icon={PageIcon} accent="clients"
         title={fr.clients.title}
         subtitle={fr.clients.subtitle}
         actions={<ClientFormDialog />}

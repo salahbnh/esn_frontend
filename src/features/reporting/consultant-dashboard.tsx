@@ -6,6 +6,7 @@
  * from `/reports/me` (no consultant profile) renders a graceful EmptyState.
  */
 
+import { LayoutDashboard as PageIcon } from "lucide-react";
 import { Briefcase, Percent } from "lucide-react";
 
 import { KpiCard } from "@/components/common/kpi-card";
@@ -29,7 +30,7 @@ export function ConsultantDashboard({ name }: { name?: string | null }) {
 
   return (
     <section className="space-y-6">
-      <PageHeader
+      <PageHeader icon={PageIcon} accent="dashboard"
         title={`${fr.dashboard.greeting}${name ? `, ${name}` : ""}`}
         subtitle={fr.dashboard.subtitle}
       />

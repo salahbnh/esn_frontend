@@ -1,5 +1,6 @@
 "use client";
 
+import { Users as PageIcon } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useEffect, useMemo, useState } from "react";
 
@@ -49,7 +50,7 @@ export function CandidatesListView() {
 
   return (
     <section className="space-y-6">
-      <PageHeader
+      <PageHeader icon={PageIcon} accent="candidates"
         title={fr.candidates.title}
         subtitle={fr.candidates.subtitle}
         actions={isRh ? <CreateCandidateDialog /> : undefined}

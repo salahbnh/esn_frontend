@@ -1,3 +1,4 @@
+import { Megaphone as PageIcon } from "lucide-react";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import type { Metadata } from "next";
@@ -15,7 +16,7 @@ export default async function NewJobPostPage() {
   if (role !== "RH" && role !== "DIRECTION") redirect("/job-posts");
   return (
     <section className="space-y-6">
-      <PageHeader title={fr.jobPosts.new} subtitle={fr.jobPosts.subtitle} />
+      <PageHeader icon={PageIcon} accent="jobPosts" title={fr.jobPosts.new} subtitle={fr.jobPosts.subtitle} />
       <JobPostForm />
     </section>
   );

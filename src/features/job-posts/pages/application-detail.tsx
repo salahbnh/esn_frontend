@@ -1,5 +1,16 @@
 "use client";
 
+import { InfoField, InfoGrid } from "@/components/common/info-grid";
+import { SectionCard } from "@/components/common/section-card";
+import {
+  CalendarDays,
+  FolderOpen,
+  Mail,
+  MessageSquareText,
+  Phone,
+  Tags,
+  UserRound,
+} from "lucide-react";
 import { useSession } from "next-auth/react";
 import { Download } from "lucide-react";
 import { useState } from "react";
@@ -33,17 +44,17 @@ export function ApplicationDetailView({ appId }: { appId: string }) {
     <QueryBoundary query={query}>
       {(appli) => (
         <section className="space-y-6">
-          <PageHeader
+          <PageHeader icon={UserRound} accent="jobPosts"
             title={`${appli.firstName} ${appli.lastName}`}
             subtitle={appli.jobTitleSnapshot}
             actions={<ApplicationStatusBadge status={appli.status} />}
           />
 
-          <dl className="grid grid-cols-1 gap-x-8 gap-y-4 sm:grid-cols-2">
-            <Field label={fr.jobPosts.email}>{appli.email}</Field>
-            <Field label={fr.jobPosts.phone}>{appli.phone ?? "—"}</Field>
-            <Field label={fr.jobPosts.receivedAt}>{formatDate(appli.createdAt)}</Field>
-          </dl>
+          <InfoGrid>
+            <InfoField label={fr.jobPosts.email} icon={Mail}>{appli.email}</InfoField>
+            <InfoField label={fr.jobPosts.phone} icon={Phone}>{appli.phone ?? "—"}</InfoField>
+            <InfoField label={fr.jobPosts.receivedAt} icon={CalendarDays}>{formatDate(appli.createdAt)}</InfoField>
+          </InfoGrid>
 
           <Documents documents={appli.documents} />
           <Answers answers={appli.answers} />
@@ -77,10 +88,7 @@ function Documents({ documents }: { documents: ApplicationDetail["documents"] })
   }
   if (documents.length === 0) return null;
   return (
-    <div className="space-y-2">
-      <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
-        {fr.jobPosts.documents}
-      </h2>
+    <SectionCard title={fr.jobPosts.documents} icon={FolderOpen} accent="documents">
       <div className="flex flex-wrap gap-2">
         {documents.map((d) => (
           <Button key={d.id} variant="outline" size="sm" onClick={() => download(d.id)}>
@@ -89,26 +97,23 @@ function Documents({ documents }: { documents: ApplicationDetail["documents"] })
           </Button>
         ))}
       </div>
-    </div>
+    </SectionCard>
   );
 }
 
 function Answers({ answers }: { answers: AnswerSnapshot[] }) {
   if (answers.length === 0) return null;
   return (
-    <div className="space-y-2">
-      <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
-        {fr.jobPosts.answers}
-      </h2>
+    <SectionCard title={fr.jobPosts.answers} icon={MessageSquareText} accent="jobPosts">
       <dl className="space-y-2">
         {answers.map((a) => (
-          <div key={a.key} className="rounded-lg border p-3">
+          <div key={a.key} className="rounded-lg bg-muted/50 px-3 py-2.5">
             <dt className="text-xs font-medium text-muted-foreground">{a.label}</dt>
             <dd className="mt-0.5 text-sm">{formatAnswer(a.value)}</dd>
           </div>
         ))}
       </dl>
-    </div>
+    </SectionCard>
   );
 }
 
@@ -121,16 +126,13 @@ function formatAnswer(value: AnswerSnapshot["value"]): string {
 function DeclaredSkills({ skills }: { skills: ApplicationDetail["declaredSkills"] }) {
   if (!skills || skills.length === 0) return null;
   return (
-    <div className="space-y-2">
-      <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
-        {fr.jobPosts.declaredSkills}
-      </h2>
+    <SectionCard title={fr.jobPosts.declaredSkills} icon={Tags} accent="skills">
       <div className="flex flex-wrap gap-1.5">
         {skills.map((s) => (
           <Badge key={s.name} variant="secondary">{s.name}</Badge>
         ))}
       </div>
-    </div>
+    </SectionCard>
   );
 }
 
@@ -208,11 +210,3 @@ function Actions({ appli, canLink }: { appli: ApplicationDetail; canLink: boolea
   );
 }
 
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
-  return (
-    <div>
-      <dt className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{label}</dt>
-      <dd className="mt-1 text-sm">{children}</dd>
-    </div>
-  );
-}

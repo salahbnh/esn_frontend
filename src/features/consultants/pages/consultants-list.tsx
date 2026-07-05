@@ -1,5 +1,6 @@
 "use client";
 
+import { UsersRound as PageIcon } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 
 import { EmptyState } from "@/components/common/async-states";
@@ -45,7 +46,7 @@ export function ConsultantsListView() {
 
   return (
     <section className="space-y-6">
-      <PageHeader
+      <PageHeader icon={PageIcon} accent="consultants"
         title={fr.consultants.title}
         subtitle={fr.consultants.subtitle}
       />

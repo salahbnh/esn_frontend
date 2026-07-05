@@ -27,6 +27,14 @@ import {
   type ContractEditForm,
 } from "@/features/contracts/contracts.schemas";
 import { useUpdateContract } from "@/features/contracts/use-contracts";
+import { useManagers } from "@/features/users/use-users";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import type { ContractDetail } from "@/features/contracts/contracts.types";
 
 function toFormValues(c: ContractDetail): ContractEditForm {
@@ -40,6 +48,8 @@ function toFormValues(c: ContractDetail): ContractEditForm {
 /** Edit a DRAFT contract's type + dates (RH / DIRECTION). */
 export function ContractEditDialog({ contract }: { contract: ContractDetail }) {
   const [open, setOpen] = useState(false);
+  const [managerId, setManagerId] = useState(contract.manager?.id ?? "");
+  const managers = (useManagers().data?.data ?? []).filter((m) => m.isActive);
   const updateMutation = useUpdateContract(contract.id);
 
   const {
@@ -54,7 +64,10 @@ export function ContractEditDialog({ contract }: { contract: ContractDetail }) {
 
   const onSubmit = handleSubmit(async (values) => {
     try {
-      await updateMutation.mutateAsync(toUpdateContractBody(values));
+      await updateMutation.mutateAsync({
+        ...toUpdateContractBody(values),
+        ...(managerId && managerId !== contract.manager?.id ? { managerId } : {}),
+      });
       toast.success(fr.contracts.updateSuccess);
       reset(values);
       setOpen(false);
@@ -64,7 +77,10 @@ export function ContractEditDialog({ contract }: { contract: ContractDetail }) {
   });
 
   function onOpenChange(next: boolean) {
-    if (next) reset(toFormValues(contract));
+    if (next) {
+      reset(toFormValues(contract));
+      setManagerId(contract.manager?.id ?? "");
+    }
     setOpen(next);
   }
 
@@ -88,6 +104,24 @@ export function ContractEditDialog({ contract }: { contract: ContractDetail }) {
             {errors.type ? (
               <p className="text-xs text-destructive">{errors.type.message}</p>
             ) : null}
+          </div>
+
+          <div className="space-y-1.5">
+            <Label htmlFor="contract-edit-manager">
+              {fr.contracts.designatedManager}
+            </Label>
+            <Select value={managerId || undefined} onValueChange={setManagerId}>
+              <SelectTrigger id="contract-edit-manager">
+                <SelectValue placeholder={fr.contracts.designatedManagerPlaceholder} />
+              </SelectTrigger>
+              <SelectContent>
+                {managers.map((m) => (
+                  <SelectItem key={m.id} value={m.id}>
+                    {m.firstName} {m.lastName}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">

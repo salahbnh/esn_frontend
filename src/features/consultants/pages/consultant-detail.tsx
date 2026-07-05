@@ -1,5 +1,6 @@
 "use client";
 
+import { UsersRound as PageIcon } from "lucide-react";
 import { useSession } from "next-auth/react";
 
 import { PageHeader } from "@/components/common/page-header";
@@ -35,7 +36,7 @@ export function ConsultantDetailView({ id }: { id: string }) {
     <QueryBoundary query={query}>
       {(consultant) => (
         <section className="space-y-6">
-          <PageHeader
+          <PageHeader icon={PageIcon} accent="consultants"
             title={`${consultant.user.firstName} ${consultant.user.lastName}`}
             subtitle={consultant.position}
             actions={

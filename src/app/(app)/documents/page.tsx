@@ -1,3 +1,4 @@
+import { FolderOpen as PageIcon } from "lucide-react";
 import { getServerSession } from "next-auth";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -11,6 +12,7 @@ import {
 } from "lucide-react";
 
 import { PageHeader } from "@/components/common/page-header";
+import { MODULE_ACCENTS } from "@/lib/module-accents";
 import { authOptions } from "@/lib/auth";
 import { fr } from "@/lib/i18n/fr";
 
@@ -19,11 +21,11 @@ export const metadata: Metadata = {
 };
 
 const LINKS = [
-  { href: "/consultants", label: fr.nav.consultants, icon: UsersRound },
-  { href: "/contracts", label: fr.nav.contracts, icon: ScrollText },
-  { href: "/missions", label: fr.nav.missions, icon: Briefcase },
-  { href: "/candidates", label: fr.nav.candidates, icon: Users },
-  { href: "/clients", label: fr.nav.clients, icon: Building2 },
+  { href: "/consultants", label: fr.nav.consultants, icon: UsersRound, accent: "consultants" },
+  { href: "/contracts", label: fr.nav.contracts, icon: ScrollText, accent: "contracts" },
+  { href: "/missions", label: fr.nav.missions, icon: Briefcase, accent: "missions" },
+  { href: "/candidates", label: fr.nav.candidates, icon: Users, accent: "candidates" },
+  { href: "/clients", label: fr.nav.clients, icon: Building2, accent: "clients" },
 ] as const;
 
 /**
@@ -41,7 +43,7 @@ export default async function DocumentsPage() {
 
   return (
     <section className="space-y-6">
-      <PageHeader
+      <PageHeader icon={PageIcon} accent="documents"
         title={fr.documents.title}
         subtitle={fr.documents.hubSubtitle}
       />
@@ -57,9 +59,14 @@ export default async function DocumentsPage() {
             <Link
               key={l.href}
               href={l.href}
-              className="flex items-center gap-3 rounded-lg border p-4 transition-colors hover:bg-accent hover:text-accent-foreground"
+              className="group flex items-center gap-3 rounded-lg border p-4 transition-all hover:-translate-y-0.5 hover:shadow-sm"
             >
-              <Icon className="h-5 w-5 text-primary" />
+              <span
+                aria-hidden="true"
+                className={`flex h-9 w-9 items-center justify-center rounded-lg ${MODULE_ACCENTS[l.accent].chip}`}
+              >
+                <Icon className="h-5 w-5" />
+              </span>
               <span className="font-medium">{l.label}</span>
             </Link>
           );

@@ -1,5 +1,6 @@
 "use client";
 
+import { FileStack as PageIcon } from "lucide-react";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { useMemo, useState } from "react";
@@ -40,7 +41,7 @@ export function TemplatesListView() {
         {fr.templates.back}
       </Link>
 
-      <PageHeader
+      <PageHeader icon={PageIcon} accent="contracts"
         title={fr.templates.title}
         subtitle={fr.templates.subtitle}
         actions={<TemplateFormDialog />}

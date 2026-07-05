@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { cn } from "@/lib/utils";
+import { MODULE_ACCENTS } from "@/lib/module-accents";
 import { navForRole } from "@/lib/rbac";
 import type { Role } from "@/lib/types";
 
@@ -42,6 +43,7 @@ export function NavLinks({
           {section.items.map((item) => {
             const active = isActive(item.href);
             const Icon = item.icon;
+            const tint = MODULE_ACCENTS[item.accent];
             return (
               <Link
                 key={item.href}
@@ -49,13 +51,27 @@ export function NavLinks({
                 onClick={onNavigate}
                 aria-current={active ? "page" : undefined}
                 className={cn(
-                  "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors",
+                  "relative flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors",
                   active
-                    ? "bg-primary/10 text-primary"
-                    : "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
+                    ? cn(tint.soft, "text-foreground")
+                    : "text-muted-foreground hover:bg-muted hover:text-foreground",
                 )}
               >
-                <Icon className="h-4 w-4 shrink-0" />
+                {/* Active indicator bar (module-tinted) */}
+                <span
+                  aria-hidden="true"
+                  className={cn(
+                    "absolute left-0 top-1/2 h-5 w-1 -translate-y-1/2 rounded-r-full transition-opacity",
+                    tint.bar,
+                    active ? "opacity-100" : "opacity-0",
+                  )}
+                />
+                <Icon
+                  className={cn(
+                    "h-4 w-4 shrink-0 transition-colors",
+                    active ? tint.text : "text-muted-foreground/70",
+                  )}
+                />
                 <span>{item.label}</span>
               </Link>
             );

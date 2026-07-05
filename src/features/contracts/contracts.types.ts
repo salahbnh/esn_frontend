@@ -78,6 +78,8 @@ export interface Contract {
   createdAt: ISODateString;
   updatedAt: ISODateString;
   consultant: ContractConsultant;
+  /** Designated approver of the MANAGER validation step (null = legacy). */
+  manager?: { id: string; firstName: string; lastName: string } | null;
 }
 
 /** `GET /:id` — contract + template + validations + amendments + the prefill snapshot. */
@@ -93,6 +95,7 @@ export interface ContractDetail extends Contract {
 export interface CreateContractBody {
   consultantId: string;
   templateId?: string;
+  managerId: string;
   type: string;
   startDate?: string;
   endDate?: string;
@@ -101,6 +104,7 @@ export interface CreateContractBody {
 
 export interface UpdateContractBody {
   type?: string;
+  managerId?: string;
   startDate?: string;
   endDate?: string;
   fields?: Record<string, string>;

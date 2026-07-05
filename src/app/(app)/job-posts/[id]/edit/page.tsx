@@ -1,5 +1,6 @@
 "use client";
 
+import { Megaphone as PageIcon } from "lucide-react";
 import { use } from "react";
 
 import { PageHeader } from "@/components/common/page-header";
@@ -13,7 +14,7 @@ export default function EditJobPostPage({ params }: { params: Promise<{ id: stri
   const query = useJobPost(id);
   return (
     <section className="space-y-6">
-      <PageHeader title={fr.jobPosts.editTitle} />
+      <PageHeader icon={PageIcon} accent="jobPosts" title={fr.jobPosts.editTitle} />
       <QueryBoundary query={query}>{(post) => <JobPostForm post={post} />}</QueryBoundary>
     </section>
   );

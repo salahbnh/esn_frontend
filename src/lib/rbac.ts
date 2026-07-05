@@ -16,12 +16,14 @@ import {
   ScrollText,
   Tag,
   UserCircle,
+  UserCog,
   Users,
   UsersRound,
   Building2,
 } from "lucide-react";
 
 import { fr } from "@/lib/i18n/fr";
+import type { ModuleAccent } from "@/lib/module-accents";
 import type { Role } from "@/lib/types";
 
 export type { Role };
@@ -33,6 +35,8 @@ export interface NavItem {
   icon: LucideIcon;
   /** "ALL" or the roles allowed to see this item. */
   roles: "ALL" | Role[];
+  /** Per-module accent tint (icon + active state). */
+  accent: ModuleAccent;
 }
 
 export interface NavSection {
@@ -55,6 +59,7 @@ const NAV_MODEL: NavSection[] = [
       {
         label: fr.nav.dashboard,
         href: "/dashboard",
+        accent: "dashboard",
         icon: LayoutDashboard,
         roles: "ALL",
       },
@@ -66,60 +71,77 @@ const NAV_MODEL: NavSection[] = [
       {
         label: fr.nav.candidates,
         href: "/candidates",
+        accent: "candidates",
         icon: Users,
         roles: ["RH", "MANAGER", "DIRECTION"],
       },
       {
         label: fr.nav.consultants,
         href: "/consultants",
+        accent: "consultants",
         icon: UsersRound,
         roles: ["RH", "MANAGER", "DIRECTION"],
       },
       {
         label: fr.nav.clients,
         href: "/clients",
+        accent: "clients",
         icon: Building2,
         roles: ["RH", "MANAGER", "DIRECTION"],
       },
       {
         label: fr.nav.missions,
         href: "/missions",
+        accent: "missions",
         icon: Briefcase,
         roles: ["RH", "MANAGER", "DIRECTION"],
       },
       {
         label: fr.nav.staffing,
         href: "/staffing",
+        accent: "staffing",
         icon: UsersRound,
         roles: ["RH", "MANAGER", "DIRECTION"],
       },
       {
         label: fr.nav.contracts,
         href: "/contracts",
+        accent: "contracts",
         icon: ScrollText,
         roles: ["RH", "MANAGER", "DIRECTION"],
       },
       {
         label: fr.nav.documents,
         href: "/documents",
+        accent: "documents",
         icon: FolderOpen,
         roles: ["RH", "DIRECTION"],
       },
       {
         label: fr.nav.skills,
         href: "/skills",
+        accent: "skills",
         icon: Tag,
         roles: ["RH", "DIRECTION"],
       },
       {
         label: fr.nav.jobPosts,
         href: "/job-posts",
+        accent: "jobPosts",
         icon: Megaphone,
         roles: ["RH", "MANAGER", "DIRECTION"],
       },
       {
+        label: fr.nav.users,
+        href: "/users",
+        accent: "users",
+        icon: UserCog,
+        roles: ["DIRECTION"],
+      },
+      {
         label: fr.nav.reports,
         href: "/reports",
+        accent: "reports",
         icon: FileText,
         roles: ["RH", "MANAGER", "DIRECTION"],
       },
@@ -131,24 +153,28 @@ const NAV_MODEL: NavSection[] = [
       {
         label: fr.nav.myProfile,
         href: "/me",
+        accent: "me",
         icon: UserCircle,
         roles: ["CONSULTANT"],
       },
       {
         label: fr.nav.myMissions,
         href: "/me/missions",
+        accent: "me",
         icon: Briefcase,
         roles: ["CONSULTANT"],
       },
       {
         label: fr.nav.myDocuments,
         href: "/me/documents",
+        accent: "me",
         icon: FolderOpen,
         roles: ["CONSULTANT"],
       },
       {
         label: fr.nav.myContract,
         href: "/me/contract",
+        accent: "me",
         icon: ScrollText,
         roles: ["CONSULTANT"],
       },

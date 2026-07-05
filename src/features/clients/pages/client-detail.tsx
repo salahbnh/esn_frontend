@@ -1,6 +1,7 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { Briefcase, Building2, Layers, Mail, User } from "lucide-react";
+import { InfoField, InfoGrid } from "@/components/common/info-grid";
 
 import { PageHeader } from "@/components/common/page-header";
 import {
@@ -22,7 +23,7 @@ export function ClientDetailView({ id }: { id: string }) {
     <QueryBoundary query={query}>
       {(client) => (
         <section className="space-y-6">
-          <PageHeader
+          <PageHeader icon={Building2} accent="clients"
             title={client.name}
             subtitle={client.industry ?? undefined}
             actions={<ClientFormDialog client={client} />}
@@ -35,20 +36,20 @@ export function ClientDetailView({ id }: { id: string }) {
             </TabsList>
 
             <TabsContent value="info">
-              <dl className="grid grid-cols-1 gap-x-8 gap-y-4 sm:grid-cols-2">
-                <Field label={fr.clients.industry}>
+              <InfoGrid>
+                <InfoField label={fr.clients.industry} icon={Layers}>
                   {client.industry ?? "—"}
-                </Field>
-                <Field label={fr.clients.missionCount}>
+                </InfoField>
+                <InfoField label={fr.clients.missionCount} icon={Briefcase}>
                   <span className="tabular-nums">{client._missionCount}</span>
-                </Field>
-                <Field label={fr.clients.contactName}>
+                </InfoField>
+                <InfoField label={fr.clients.contactName} icon={User}>
                   {client.contactName ?? "—"}
-                </Field>
-                <Field label={fr.clients.contactEmail}>
+                </InfoField>
+                <InfoField label={fr.clients.contactEmail} icon={Mail}>
                   {client.contactEmail ?? "—"}
-                </Field>
-              </dl>
+                </InfoField>
+              </InfoGrid>
             </TabsContent>
 
             <TabsContent value="documents">
@@ -61,13 +62,3 @@ export function ClientDetailView({ id }: { id: string }) {
   );
 }
 
-function Field({ label, children }: { label: string; children: ReactNode }) {
-  return (
-    <div>
-      <dt className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-        {label}
-      </dt>
-      <dd className="mt-1 text-sm">{children}</dd>
-    </div>
-  );
-}

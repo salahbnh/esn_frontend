@@ -10,6 +10,7 @@ import { z } from "zod";
 export const contractCreateSchema = z.object({
   consultantId: z.string().min(1, "Consultant requis"),
   templateId: z.string().optional(),
+  managerId: z.string().min(1, "Manager requis"),
   type: z.string().min(1, "Type requis"),
   startDate: z.string().optional(),
   endDate: z.string().optional(),

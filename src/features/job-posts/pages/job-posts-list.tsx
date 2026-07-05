@@ -1,5 +1,6 @@
 "use client";
 
+import { Megaphone as PageIcon } from "lucide-react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { Plus } from "lucide-react";
@@ -27,7 +28,7 @@ export function JobPostsListView() {
 
   return (
     <section className="space-y-6">
-      <PageHeader
+      <PageHeader icon={PageIcon} accent="jobPosts"
         title={fr.jobPosts.title}
         subtitle={fr.jobPosts.subtitle}
         actions={

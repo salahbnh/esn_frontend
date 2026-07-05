@@ -1,5 +1,6 @@
 "use client";
 
+import { ScrollText as PageIcon } from "lucide-react";
 import { EmptyState } from "@/components/common/async-states";
 import { PageHeader } from "@/components/common/page-header";
 import { StatusBadge } from "@/components/common/status-badge";
@@ -17,7 +18,7 @@ export function MeContractView() {
 
   return (
     <section className="space-y-6">
-      <PageHeader
+      <PageHeader icon={PageIcon} accent="me"
         title={fr.contracts.myContractsTitle}
         subtitle={fr.contracts.myContractsSubtitle}
       />

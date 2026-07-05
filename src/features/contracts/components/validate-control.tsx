@@ -1,5 +1,6 @@
 "use client";
 
+import { Check, Stamp, X } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -42,6 +43,15 @@ export function ValidateControl({ contract }: { contract: ContractDetail }) {
 
   return (
     <div className="space-y-3 rounded-lg border border-primary/30 bg-primary/5 p-4">
+      <h3 className="flex items-center gap-2 text-sm font-semibold">
+        <span
+          aria-hidden="true"
+          className="flex h-7 w-7 items-center justify-center rounded-md bg-primary/15 text-primary"
+        >
+          <Stamp className="h-4 w-4" />
+        </span>
+        {fr.contracts.yourDecision}
+      </h3>
       <div className="space-y-1.5">
         <Label htmlFor="validate-comment">{fr.contracts.validateComment}</Label>
         <Textarea
@@ -57,9 +67,11 @@ export function ValidateControl({ contract }: { contract: ContractDetail }) {
           onClick={() => decide("REJECTED")}
           disabled={mutation.isPending}
         >
+          <X className="h-4 w-4" />
           {fr.contracts.reject}
         </Button>
         <Button onClick={() => decide("APPROVED")} disabled={mutation.isPending}>
+          <Check className="h-4 w-4" />
           {fr.contracts.approve}
         </Button>
       </div>
