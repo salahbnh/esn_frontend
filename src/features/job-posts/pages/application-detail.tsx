@@ -22,6 +22,7 @@ import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
 import { formatDate } from "@/lib/format";
 import { fr } from "@/lib/i18n/fr";
+import { AiEvaluationCard } from "@/features/job-posts/components/ai-evaluation-card";
 import { ApplicationStatusBadge } from "@/features/job-posts/components/badges";
 import { jobPostErrorMessage } from "@/features/job-posts/form-helpers";
 import { QueryBoundary } from "@/features/job-posts/query-boundary";
@@ -59,6 +60,7 @@ export function ApplicationDetailView({ appId }: { appId: string }) {
           <Documents documents={appli.documents} />
           <Answers answers={appli.answers} />
           <DeclaredSkills skills={appli.declaredSkills} />
+          <AiEvaluationCard appId={appli.id} canTrigger={canManage} />
 
           {appli.rejectionReason ? (
             <p className="text-sm text-destructive">

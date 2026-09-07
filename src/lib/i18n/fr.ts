@@ -870,6 +870,34 @@ export const fr = {
     email: "E-mail",
     phone: "Téléphone",
   },
+  // AI evaluation (application vs job post)
+  aiEvaluation: {
+    title: "Évaluation IA",
+    trigger: "Évaluer avec IA",
+    retrigger: "Réévaluer",
+    evaluating: "Évaluation en cours…",
+    notConfigured: "L'évaluation IA n'est pas configurée sur ce serveur.",
+    providerError: "Erreur du service IA — veuillez réessayer.",
+    genericError: "L'évaluation a échoué — veuillez réessayer.",
+    success: "Évaluation terminée.",
+    withCv: "Évaluation incluant le CV",
+    noCv: "Évaluation sans CV (absent ou format non supporté)",
+    strengths: "Points forts",
+    gaps: "Lacunes",
+    noGaps: "Aucune lacune notable",
+    reasoning: "Raisonnement",
+    score: "Score",
+    history: "Historique des évaluations",
+    noEvaluations:
+      "Aucune évaluation pour le moment. Lancez une évaluation IA pour comparer cette candidature à l'offre.",
+    evaluatedBy: "par",
+    verdicts: {
+      STRONG_MATCH: "Correspondance forte",
+      GOOD_MATCH: "Bonne correspondance",
+      PARTIAL_MATCH: "Correspondance partielle",
+      WEAK_MATCH: "Faible correspondance",
+    },
+  },
   // Users admin (DIRECTION)
   users: {
     title: "Utilisateurs",

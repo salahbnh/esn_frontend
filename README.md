@@ -1,8 +1,13 @@
 # ESN Resource Manager — Frontend
 
-Next.js (App Router) + TypeScript skeleton for the internal ESN resource-management app.
-This is the **foundation only**: auth (Keycloak via NextAuth), a typed API client, shared
-contract types, UI primitives, and a placeholder dashboard. Module screens are not built yet.
+> **Setting this up on a new machine? Read `backend/INSTALL.md`** — the complete
+> step-by-step Windows guide covering BOTH projects (prerequisites, exact versions,
+> data loading, logins, troubleshooting). This README is the developer reference.
+
+Next.js (App Router) + TypeScript frontend for the internal ESN resource-management app:
+recruitment, consultants, clients, missions and staffing, contracts and their validation
+workflow, documents, job offers with a public application portal, reporting, and user
+administration. Auth is Keycloak (OIDC) via NextAuth; all data comes from the backend REST API.
 
 ## Stack
 - Next.js 15 (App Router), React 19, TypeScript (strict)
@@ -10,7 +15,7 @@ contract types, UI primitives, and a placeholder dashboard. Module screens are n
 - Talks to the backend REST API at `NEXT_PUBLIC_API_BASE_URL`
 
 ## Prerequisites
-- Node.js 18.18+ (Node 20+ recommended)
+- Node.js 22 LTS (tested on 22.23.2)
 - A running Keycloak with realm `esn` and a public client `esn-frontend`
 - The backend API running at `http://localhost:4000/api`
 
@@ -22,7 +27,7 @@ npm install
 ## Configure env
 Copy the example and fill in values:
 ```bash
-cp .env.example .env.local
+cp .env.local.example .env.local
 ```
 | Var | Purpose |
 |---|---|
