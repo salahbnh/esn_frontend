@@ -1,9 +1,8 @@
 # ESN Resource Manager — Frontend
 
 > **Client project.** This is the frontend of a full-stack platform built for an IT consulting
-> firm. The backend (Express + TypeScript, Prisma/PostgreSQL, Keycloak, MinIO; ~100 REST
-> endpoints, 30+ test files) lives in a separate private repository and can be walked through
-> on request.
+> firm. The backend (Express + TypeScript, Prisma/PostgreSQL, Keycloak, S3 storage; ~100 REST
+> endpoints, 460+ tests in CI) lives in [esn_backend](https://github.com/salahbnh/esn_backend).
 
 Next.js (App Router) + TypeScript frontend for the internal ESN resource-management app:
 recruitment, consultants, clients, missions and staffing, contracts and their validation
