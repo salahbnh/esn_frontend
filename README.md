@@ -1,8 +1,9 @@
 # ESN Resource Manager — Frontend
 
-> **Setting this up on a new machine? Read `backend/INSTALL.md`** — the complete
-> step-by-step Windows guide covering BOTH projects (prerequisites, exact versions,
-> data loading, logins, troubleshooting). This README is the developer reference.
+> **Client project.** This is the frontend of a full-stack platform built for an IT consulting
+> firm. The backend (Express + TypeScript, Prisma/PostgreSQL, Keycloak, MinIO; ~100 REST
+> endpoints, 30+ test files) lives in a separate private repository and can be walked through
+> on request.
 
 Next.js (App Router) + TypeScript frontend for the internal ESN resource-management app:
 recruitment, consultants, clients, missions and staffing, contracts and their validation
